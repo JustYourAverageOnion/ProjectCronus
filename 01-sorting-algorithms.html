@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sorting Algorithm :)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Raleway');
+        * {
+            font-family: Raleway, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: white;
+            font-size: 110%;
+            color: black;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid white;
+        }
+        h1 {
+            text-align: center;
+            font-size: 200%;
+        }
+        div {
+            margin-top: 3px;
+            text-align: center;
+        }
+        button{
+            border: 0;
+        }
+        #Step_counter {
+            width: 80px;
+            display: inline-block;
+        }
+        @font-face {
+            font-family: raleway;
+            src: url(raleway/Raleway-SemiBold.ttf);
+        }
+    </style>
+</head>
+<body>
+    <h1>Sorting Visualizations</h1>
+    <canvas id="surface" width="550" height="100">This isn't displaying for some reason, and that's sad :(</canvas>
+    <div>
+        <button id="Reset">Reset</button>
+        <button id="Run">Run</button>
+        <button id="Pause">Pause</button>
+        <button id="Re_step">&#8249;</button>
+        <div id="Step_counter">0</div>
+        <button id="Step">&#8250;</button>
+    </div>
+    <div>
+        <input type="checkbox" id="bubble_check" name="bubble_check" checked>
+        <label for="bubble_check">Bubble sort</label>
+    </div>
+    <script>
+        function bubble_sort(arr, row) {
+            let steps = [];
+            let swapped = true;
+            let i = arr.length - 1;
+            while (swapped === true && i > 0) {
+                swapped = false;
+                for (let j = 0; j < i; j++) {
+                    steps.push(arr.slice(0));
+                    if (arr[j] > arr[j + 1]) {
+                        let temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                        swapped = true;
+                        steps.push(arr.slice(0));
+                    }
+                }
+                i -= 1;
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        class Graphics {
+            constructor(ctx, counter, names) {
+                this.colours = [
+                    "#b23700",
+                    "#cc3f00",
+                    "#e54700",
+                    "#ff4f00",
+                    "#ff4f00",
+                    "#ff6019",
+                    "#ff7232",
+                    "#ff834c",
+                    "#ff9566",
+                    "#ffa77f",
+                    "#ffb899",
+                    "#ffcab2",
+                    "#ffdbcc",
+                    "#ffede5",
+                    "#ffffff"
+                ];
+                this.permitted = [0, 0, 0, 0, 0]; 
+                this.CTX = ctx;
+                this.block_width = 10;
+                this.block_height = 60;
+                this.X_offset = 280;
+                this.Y_offset = 10;
+                this.sort_animation = null;
+                this.step = 0;
+                this.counter = counter;
+                this.names = names;
+                this.update_step = function () {
+                    this.counter.innerHTML = this.step;
+                };
+                this.display_names = function () {
+                    this.CTX.font = "30px Arial";
+                    for (let i = 0; i < this.names.length; i++) {
+                        this.CTX.fillStyle = "#fff";
+                        this.CTX.fillText(
+                            this.names[i][0] + " SORT:",
+                            10,
+                            30 + graphics.block_height / 2 + i * this.block_height
+                        );
+                        this.CTX.fillStyle = "#000";
+                        this.CTX.fillText(
+                            this.names[i][0] + " SORT:",
+                            10,
+                            30 + graphics.block_height / 2 + i * this.block_height
+                        );
+                    }
+                };
+                this.display_block = function (x, y, height, colour) {
+                    this.CTX.fillStyle = "#fff";
+                    this.CTX.fillRect(x, y, this.block_width, this.block_height);
+                    this.CTX.fillStyle = colour;
+                    let offset = this.block_height - height * 3;
+                    this.CTX.fillRect(x, y + offset, this.block_width, height * 3);
+                };
+                this.display_frame = function (frame, y_axis) {
+                    for (let i = 0; i < frame.length; i++) {
+                        this.display_block(
+                            i * this.block_width + this.X_offset,
+                            y_axis * this.block_height + this.Y_offset,
+                            frame[i],
+                            this.colours[this.colours.length - 1 - frame[i]]
+                        );
+                    }
+                };
+                this.display_step = function (holder) {
+                    for (let i = 0; i < holder.length; i++) {
+                        if (this.permitted[i] == 1) {
+                            if (holder[i].length - 1 >= this.step) {
+                                this.display_frame(holder[i][this.step], i);
+                                this.names[i][1] = "#000";
+                            } else {
+                                this.display_frame(holder[i][holder[i].length - 1], i);
+                                this.names[i][1] = "#00FF00";
+                            }
+                        } else {
+                            this.blank_frame(holder[i][0], i);
+                        }
+                    }
+                    this.update_step();
+                    this.display_names();
+                };
+                this.display_sorts = function (holder) {
+                    clearInterval(this.sort_animation);
+                    this.sort_animation = setInterval(() => {
+                        let running = false;
+                        for (let i = 0; i < holder.length; i++) {
+                            if (this.permitted[i] == 1) {
+                                if (holder[i].length - 1 >= this.step) {
+                                    running = true;
+                                    this.display_frame(holder[i][this.step], i);
+                                    this.names[i][1] = "#000";
+                                } else {
+                                    this.display_frame(holder[i][holder[i].length - 1], i);
+                                    this.names[i][1] = "#00FF00";
+                                }
+                            } else {
+                                this.blank_frame(holder[i][0], i);
+                            }
+                        }
+                        this.step += 1;
+                        this.update_step();
+                        this.display_names();
+                        if (running === false) {
+                            clearInterval(this.sort_animation);
+                        }
+                    }, 20);
+                };
+                this.display_clear = function (holder) {
+                    this.step = 0;
+                    clearInterval(this.sort_animation);
+                    this.display_step(holder);
+                    for (let i = 0; i < this.names.length; i++) {
+                        this.names[i][1] = "#000";
+                    }
+                    this.display_names();
+                };
+                this.display_pause = function () {
+                    clearInterval(this.sort_animation);
+                };
+                this.blank_frame = function (frame, y_axis) {
+                    for (let i = 0; i < frame.length; i++) {
+                        this.display_block(
+                            i * this.block_width + this.X_offset,
+                            y_axis * this.block_height + this.Y_offset,
+                            frame[i],
+                            "#fff"
+                        );
+                    }
+                }
+            }
+        }
+        const Sort_num = 25; 
+        function make_list(num) {
+            let arr = [];
+            for (let i = 0; i < num; i++) {
+                arr.push(Math.floor(Math.random() * 15));
+            }
+            return arr;
+        }
+        function run_sorts(arr) {
+            let step_holder = [];
+            step_holder.push(bubble_sort(arr.slice(0)));
+            return step_holder;
+        }
+        function clude_sorts(boxes, graphics) {
+            for (let i = 0; i < boxes.length; i++) {
+                if (document.querySelector(boxes[i]).checked) {
+                    graphics.permitted[i] = 1;
+                } else {
+                    graphics.permitted[i] = 0;
+                }
+            }
+        }
+        document.querySelector("#Reset").onclick = function () {
+            clude_sorts(checkboxes, graphics)
+            let current_list = make_list(Sort_num);
+            current_holder = run_sorts(current_list);
+            graphics.display_clear(current_holder);
+        };
+        document.querySelector("#Run").onclick = function () {
+            graphics.display_sorts(current_holder);
+        };
+        document.querySelector("#Pause").onclick = function () {
+            graphics.display_pause();
+        };
+        document.querySelector("#Step").onclick = function () {
+            graphics.step += 1;
+            graphics.display_step(current_holder);
+        };
+        document.querySelector("#Re_step").onclick = function () {
+            if (graphics.step > 0) {
+                graphics.step -= 1;
+            }
+            graphics.display_step(current_holder);
+        };
+        let checkboxes = ["#bubble_check"]
+        for (var i = 0; i < checkboxes.length; i++) {
+            document.querySelector(checkboxes[i]).addEventListener('change', function () {
+                clude_sorts(checkboxes, graphics);
+            });
+        }
+        let current_holder = []; 
+        let graphics = new Graphics(
+            document.querySelector("#surface").getContext("2d"),
+            document.querySelector("#Step_counter"), [
+                ["BUBBLE", "#000"]
+            ]
+        ); 
+        document.querySelector("#Reset").click();
+    </script>
+</body>
+</html>
