@@ -23,7 +23,6 @@
             text-align: center;
         }
         canvas {
-            /* padding: 2em; */
             margin: 2em;
             border: 1px solid black;
         }
@@ -136,7 +135,7 @@
         <div id="step_counter">0</div>
         <button id="step">+</button>
     </div>
-    <canvas id="surface" width="1215" height="1100">This isn't displaying for some reason, and that's just sad :(</canvas>
+    <canvas id="surface" width="1215" height="1300">This isn't displaying for some reason, and that's just sad :(</canvas>
     <ul>
         <li>Comparison Sorts
             <hr>
@@ -158,6 +157,10 @@
             </label>
             <label class="container" for="merge_check">Merge sort
                 <input type="checkbox" id="merge_check" name="merge_check" checked>
+                <span class="checkmark"></span>
+            </label>
+            <label class="container" for="quick_check">Quick sort
+                <input type="checkbox" id="quick_check" name="quick_check" checked>
                 <span class="checkmark"></span>
             </label>
         </li>
@@ -253,11 +256,11 @@
             steps.push(arr.slice(0));
             merge_sort(left, steps);
             merge_sort(right, steps);
-            merge(arr, left, right, steps);
+            merge_sort_rec(arr, left, right, steps);
             steps.push(arr.slice(0));
             return steps;
         }
-        function merge(arr, left, right, steps) {
+        function merge_sort_rec(arr, left, right, steps) {
             var a = 0;
             while (left.length && right.length) {
                 arr[a++] = (right[0] < left[0] ? right.shift() : left.shift());
@@ -272,6 +275,42 @@
                 steps.push(arr.slice(0));
             }
             steps.push(arr.slice(0));
+            return steps;
+        }
+        function quick_sort_rec(arr, steps, start = 0, end = -1) {
+            if (end == -1) {
+                end = arr.length - 1; 
+            }
+            if (start >= end) {
+                steps.push(arr.slice(0));
+                return; 
+            } else {
+                let pivot = end; 
+                let higher = pivot - 1; 
+                let lower = start; 
+                while (lower <= higher) {
+                    steps.push(arr.slice(0));
+                    if (arr[lower] <= arr[pivot]) {
+                        lower += 1; 
+                    } else {
+                        let temp = arr[lower]; 
+                        arr[lower] = arr[higher];
+                        arr[higher] = temp;
+                        higher -= 1; 
+                        steps.push(arr.slice(0));
+                    }
+                } 
+                steps.push(arr.slice(0));
+                let temp = arr[pivot]; 
+                arr[pivot] = arr[lower]; 
+                arr[lower] = temp; 
+                quick_sort_rec(arr, steps, start, higher); 
+                quick_sort_rec(arr, steps, lower + 1, pivot); 
+            }
+        }
+        function quick_sort(arr) {
+            let steps = [];
+            quick_sort_rec(arr, steps);
             return steps;
         }
         class Graphics {
@@ -295,7 +334,7 @@
                     "#FFFAF0", "#FFFFF0", "#FAEBD7", "#FAF0E6", "#FFF0F5", "#FFE4E1", "#DCDCDC", "#D3D3D3",
                     "#C0C0C0", "#A9A9A9", "#808080", "#696969", "#778899", "#708090", "#2F4F4F", "#000000"
                 ];
-                this.permitted = [0, 0, 0, 0, 0];
+                this.permitted = [0, 0, 0, 0, 0, 0];
                 this.CTX = ctx;
                 this.block_width = 10;
                 this.block_height = 200;
@@ -426,6 +465,7 @@
             step_holder.push(insert_sort(arr.slice(0)));
             step_holder.push(select_sort(arr.slice(0)));
             step_holder.push(merge_sort(arr.slice(0), steps));
+            step_holder.push(quick_sort(arr.slice(0)));
             return step_holder;
         }
         function clude_sorts(boxes, graphics) {
@@ -459,7 +499,7 @@
             }
             graphics.display_step(current_holder);
         };
-        let checkboxes = ["#bubble_check", "#comb_check", "#insert_check", "#select_check", "#merge_check"]
+        let checkboxes = ["#bubble_check", "#comb_check", "#insert_check", "#select_check", "#merge_check", "#quick_check"]
         for (var i = 0; i < checkboxes.length; i++) {
             document.querySelector(checkboxes[i]).addEventListener('change', function () {
                 clude_sorts(checkboxes, graphics);
@@ -473,7 +513,8 @@
                 ["Comb", "#000"],
                 ["Insertion", "#000"],
                 ["Selection", "#000"],
-                ["Merge", "#000"]
+                ["Merge", "#000"],
+                ["Quick", "#000"]
             ]
         );
         document.querySelector("#reset").click();
