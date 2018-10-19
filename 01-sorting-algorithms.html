@@ -136,7 +136,7 @@
         <div id="step_counter">0</div>
         <button id="step">+</button>
     </div>
-    <canvas id="surface" width="1215" height="500">This isn't displaying for some reason, and that's just sad :(</canvas>
+    <canvas id="surface" width="1215" height="900">This isn't displaying for some reason, and that's just sad :(</canvas>
     <ul>
         <li>Comparison Sorts
             <hr>
@@ -146,6 +146,14 @@
             </label>
             <label class="container" for="comb_check">Comb sort
                 <input type="checkbox" id="comb_check" name="comb_check" checked>
+                <span class="checkmark"></span>
+            </label>
+            <label class="container" for="insert_check">Insertion sort
+                <input type="checkbox" id="insert_check" name="insert_check" checked>
+                <span class="checkmark"></span>
+            </label>
+            <label class="container" for="select_check">Selection sort
+                <input type="checkbox" id="select_check" name="select_check" checked>
                 <span class="checkmark"></span>
             </label>
         </li>
@@ -196,6 +204,40 @@
             steps.push(arr.slice(0));
             return steps;
         }
+        function insert_sort(arr, row) {
+            let steps = [];
+            for (let i = 1; i < arr.length; i++) {
+                let pos = i,
+                    key = arr[i];
+                while (pos > 0 && key < arr[pos - 1]) {
+                    steps.push(arr.slice(0));
+                    arr[pos] = arr[pos - 1];
+                    pos = pos - 1;
+                }
+                arr[pos] = key;
+                steps.push(arr.slice(0));
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        function select_sort(arr, row) {
+            let steps = [];
+            for (let i = 0; i < arr.length; i++) {
+                let smallest_index = i;
+                for (let j = i + 1; j < arr.length; j++) {
+                    steps.push(arr.slice(0));
+                    if (arr[j] < arr[smallest_index]) {
+                        smallest_index = j;
+                    }
+                }
+                let temp = arr[i];
+                arr[i] = arr[smallest_index];
+                arr[smallest_index] = temp;
+                steps.push(arr.slice(0));
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
         class Graphics {
             constructor(ctx, counter, names) {
                 this.colours = ["#CD5C5C", "#F08080", "#FA8072", "#E9967A", "#FFA07A", "#DC143C", "#FF0000",
@@ -217,7 +259,7 @@
                     "#FFFAF0", "#FFFFF0", "#FAEBD7", "#FAF0E6", "#FFF0F5", "#FFE4E1", "#DCDCDC", "#D3D3D3",
                     "#C0C0C0", "#A9A9A9", "#808080", "#696969", "#778899", "#708090", "#2F4F4F", "#000000"
                 ];
-                this.permitted = [0, 0];
+                this.permitted = [0, 0, 0, 0];
                 this.CTX = ctx;
                 this.block_width = 10;
                 this.block_height = 200;
@@ -344,6 +386,8 @@
             let step_holder = [];
             step_holder.push(bubble_sort(arr.slice(0)));
             step_holder.push(comb_sort(arr.slice(0)));
+            step_holder.push(insert_sort(arr.slice(0)));
+            step_holder.push(select_sort(arr.slice(0)));
             return step_holder;
         }
         function clude_sorts(boxes, graphics) {
@@ -377,7 +421,7 @@
             }
             graphics.display_step(current_holder);
         };
-        let checkboxes = ["#bubble_check", "#comb_check"]
+        let checkboxes = ["#bubble_check", "#comb_check", "#insert_check", "#select_check"]
         for (var i = 0; i < checkboxes.length; i++) {
             document.querySelector(checkboxes[i]).addEventListener('change', function () {
                 clude_sorts(checkboxes, graphics);
@@ -388,7 +432,9 @@
             document.querySelector("#surface").getContext("2d"),
             document.querySelector("#step_counter"), [
                 ["Bubble", "#000"],
-                ["Comb", "#000"]
+                ["Comb", "#000"],
+                ["Insertion", "#000"],
+                ["Selection", "#000"]
             ]
         );
         document.querySelector("#reset").click();
