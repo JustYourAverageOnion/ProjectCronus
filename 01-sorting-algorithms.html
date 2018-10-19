@@ -386,20 +386,20 @@
         }
         function shell_sort(arr) {
             let steps = [],
-                swapped = true,
-                i = arr.length - 1;
-            while (swapped === true && i > 0) {
-                swapped = false;
-                for (let j = 0; j < i; j++) {
-                    steps.push(arr.slice(0));
-                    if (arr[j] > arr[j + 1]) {
-                        swap(arr, j, j + 1);
-                        swapped = true;
+                gaps = [701, 301, 132, 57, 23, 10, 4, 1];
+                // https://en.wikipedia.org/wiki/Shellsort
+                for (var g in gaps) {
+                    var gap = gaps[g];
+                    for (var i = gap; i < arr.length; i++) {
+                        var temp = arr[i];
+                        for (var j = i; j >= gap & arr[j - gap] > temp; j -= gap) {
+                            arr[j] = arr[j - gap];
+                            steps.push(arr.slice(0));
+                        }
+                        arr[j] = temp;
                         steps.push(arr.slice(0));
                     }
                 }
-                i -= 1;
-            }
             steps.push(arr.slice(0));
             return steps;
         }
