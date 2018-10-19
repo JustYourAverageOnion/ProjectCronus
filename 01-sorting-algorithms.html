@@ -136,7 +136,7 @@
         <div id="step_counter">0</div>
         <button id="step">+</button>
     </div>
-    <canvas id="surface" width="1215" height="900">This isn't displaying for some reason, and that's just sad :(</canvas>
+    <canvas id="surface" width="1215" height="1100">This isn't displaying for some reason, and that's just sad :(</canvas>
     <ul>
         <li>Comparison Sorts
             <hr>
@@ -156,10 +156,20 @@
                 <input type="checkbox" id="select_check" name="select_check" checked>
                 <span class="checkmark"></span>
             </label>
+            <label class="container" for="merge_check">Merge sort
+                <input type="checkbox" id="merge_check" name="merge_check" checked>
+                <span class="checkmark"></span>
+            </label>
         </li>
     </ul>
     <script>
-        function bubble_sort(arr, row) {
+        function swap(arr, i, j) {
+            var temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            return arr;
+        }
+        function bubble_sort(arr) {
             let steps = [],
                 swapped = true,
                 i = arr.length - 1;
@@ -168,9 +178,7 @@
                 for (let j = 0; j < i; j++) {
                     steps.push(arr.slice(0));
                     if (arr[j] > arr[j + 1]) {
-                        let temp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = temp;
+                        swap(arr, j, j + 1);
                         swapped = true;
                         steps.push(arr.slice(0));
                     }
@@ -180,7 +188,7 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        function comb_sort(arr, row) {
+        function comb_sort(arr) {
             let steps = [],
                 swapped = true,
                 gap = arr.length - 1;
@@ -192,9 +200,7 @@
                 while (i + gap < arr.length) {
                     steps.push(arr.slice(0));
                     if (arr[i] > arr[i + gap]) {
-                        let temp = arr[i];
-                        arr[i] = arr[i + gap];
-                        arr[i + gap] = temp;
+                        swap(arr, i, i + gap);
                         swapped = true;
                         steps.push(arr.slice(0));
                     }
@@ -204,7 +210,7 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        function insert_sort(arr, row) {
+        function insert_sort(arr) {
             let steps = [];
             for (let i = 1; i < arr.length; i++) {
                 let pos = i,
@@ -220,7 +226,7 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        function select_sort(arr, row) {
+        function select_sort(arr) {
             let steps = [];
             for (let i = 0; i < arr.length; i++) {
                 let smallest_index = i;
@@ -230,9 +236,39 @@
                         smallest_index = j;
                     }
                 }
-                let temp = arr[i];
-                arr[i] = arr[smallest_index];
-                arr[smallest_index] = temp;
+                swap(arr, i, smallest_index);
+                steps.push(arr.slice(0));
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        function merge_sort(arr, steps) {
+            if (arr.length == 1) {
+                steps.push(arr.slice(0));
+                return steps;
+            }
+            var mid = Math.floor(arr.length / 2),
+                left = arr.slice(0, mid),
+                right = arr.slice(mid);
+            steps.push(arr.slice(0));
+            merge_sort(left, steps);
+            merge_sort(right, steps);
+            merge(arr, left, right, steps);
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        function merge(arr, left, right, steps) {
+            var a = 0;
+            while (left.length && right.length) {
+                arr[a++] = (right[0] < left[0] ? right.shift() : left.shift());
+                steps.push(arr.slice(0));
+            }
+            while (left.length) {
+                arr[a++] = left.shift();
+                steps.push(arr.slice(0));
+            }
+            while (right.length) {
+                arr[a++] = right.shift();
                 steps.push(arr.slice(0));
             }
             steps.push(arr.slice(0));
@@ -259,7 +295,7 @@
                     "#FFFAF0", "#FFFFF0", "#FAEBD7", "#FAF0E6", "#FFF0F5", "#FFE4E1", "#DCDCDC", "#D3D3D3",
                     "#C0C0C0", "#A9A9A9", "#808080", "#696969", "#778899", "#708090", "#2F4F4F", "#000000"
                 ];
-                this.permitted = [0, 0, 0, 0];
+                this.permitted = [0, 0, 0, 0, 0];
                 this.CTX = ctx;
                 this.block_width = 10;
                 this.block_height = 200;
@@ -383,11 +419,13 @@
             return arr;
         }
         function run_sorts(arr) {
-            let step_holder = [];
+            let step_holder = [],
+                steps = [];
             step_holder.push(bubble_sort(arr.slice(0)));
             step_holder.push(comb_sort(arr.slice(0)));
             step_holder.push(insert_sort(arr.slice(0)));
             step_holder.push(select_sort(arr.slice(0)));
+            step_holder.push(merge_sort(arr.slice(0), steps));
             return step_holder;
         }
         function clude_sorts(boxes, graphics) {
@@ -421,7 +459,7 @@
             }
             graphics.display_step(current_holder);
         };
-        let checkboxes = ["#bubble_check", "#comb_check", "#insert_check", "#select_check"]
+        let checkboxes = ["#bubble_check", "#comb_check", "#insert_check", "#select_check", "#merge_check"]
         for (var i = 0; i < checkboxes.length; i++) {
             document.querySelector(checkboxes[i]).addEventListener('change', function () {
                 clude_sorts(checkboxes, graphics);
@@ -434,7 +472,8 @@
                 ["Bubble", "#000"],
                 ["Comb", "#000"],
                 ["Insertion", "#000"],
-                ["Selection", "#000"]
+                ["Selection", "#000"],
+                ["Merge", "#000"]
             ]
         );
         document.querySelector("#reset").click();
