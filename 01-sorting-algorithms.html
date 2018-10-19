@@ -403,23 +403,41 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        function heap_sort(arr) {
-            let steps = [],
-                swapped = true,
-                i = arr.length - 1;
-            while (swapped === true && i > 0) {
-                swapped = false;
-                for (let j = 0; j < i; j++) {
-                    steps.push(arr.slice(0));
-                    if (arr[j] > arr[j + 1]) {
-                        swap(arr, j, j + 1);
-                        swapped = true;
-                        steps.push(arr.slice(0));
-                    }
-                }
-                i -= 1;
+        function heap_sort_rec(arr, steps) {
+            heapify(arr, steps);
+            let end = arr.length - 1;
+            while (end > 0) {
+                swap(arr, 0, end);
+                steps.push(arr.slice(0));
+                heap_sift_down(arr, 0, end, steps);
+                end--;
             }
-            steps.push(arr.slice(0));
+        }
+        function heapify(arr, steps) {
+            let i = Math.floor(arr.length / 2 - 1);
+            while (i >= 0) {
+                heap_sift_down(arr, i, arr.length, steps);
+                i--;
+            }
+        }
+        function heap_sift_down(arr, start, end, steps) {
+            let maxChild, child1, child2;
+            while (start < end) {
+                maxChild = start;
+                child1 = 2 * start + 1;
+                child2 = child1 + 1;
+                if (child1 < end && arr[child1] > arr[maxChild]) maxChild = child1;
+                if (child2 < end && arr[child2] > arr[maxChild]) maxChild = child2;
+                if (maxChild == start) return;
+                swap(arr, start, maxChild);
+                steps.push(arr.slice(0));
+                start = maxChild;
+            }
+        }
+        function heap_sort(arr) {
+            // https://en.wikipedia.org/wiki/Heapsort
+            let steps = [];
+            heap_sort_rec(arr, steps);
             return steps;
         }
         function count_sort(arr) {
