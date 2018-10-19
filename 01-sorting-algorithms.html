@@ -387,19 +387,19 @@
         function shell_sort(arr) {
             let steps = [],
                 gaps = [701, 301, 132, 57, 23, 10, 4, 1];
-                // https://en.wikipedia.org/wiki/Shellsort
-                for (var g in gaps) {
-                    var gap = gaps[g];
-                    for (var i = gap; i < arr.length; i++) {
-                        var temp = arr[i];
-                        for (var j = i; j >= gap & arr[j - gap] > temp; j -= gap) {
-                            arr[j] = arr[j - gap];
-                            steps.push(arr.slice(0));
-                        }
-                        arr[j] = temp;
+            // https://en.wikipedia.org/wiki/Shellsort
+            for (let g in gaps) {
+                let gap = gaps[g];
+                for (let i = gap; i < arr.length; i++) {
+                    let temp = arr[i];
+                    for (var j = i; j >= gap & arr[j - gap] > temp; j -= gap) {
+                        arr[j] = arr[j - gap];
                         steps.push(arr.slice(0));
                     }
+                    arr[j] = temp;
+                    steps.push(arr.slice(0));
                 }
+            }
             steps.push(arr.slice(0));
             return steps;
         }
@@ -442,19 +442,22 @@
         }
         function count_sort(arr) {
             let steps = [],
-                swapped = true,
-                i = arr.length - 1;
-            while (swapped === true && i > 0) {
-                swapped = false;
-                for (let j = 0; j < i; j++) {
+                z = 0,
+                count = [],
+                min = Math.min(...arr),
+                max = Math.max(...arr);
+            for (var i = min; i <= max; i++) {
+                count[i] = 0;
+            }
+            for (var i = 0; i < arr.length; i++) {
+                count[arr[i]]++;
+                steps.push(arr.slice(0));
+            }
+            for (var i = min; i <= max; i++) {
+                while (count[i]-- > 0) {
+                    arr[z++] = i;
                     steps.push(arr.slice(0));
-                    if (arr[j] > arr[j + 1]) {
-                        swap(arr, j, j + 1);
-                        swapped = true;
-                        steps.push(arr.slice(0));
-                    }
                 }
-                i -= 1;
             }
             steps.push(arr.slice(0));
             return steps;
@@ -694,9 +697,9 @@
             graphics.display_step(current_holder);
         };
         let checkboxes = [
-            "#bubble_check", "#comb_check", 
-            "#insert_check", "#select_check", 
-            "#merge_check","#quick_check", "#shell_check", "#heap_check", 
+            "#bubble_check", "#comb_check",
+            "#insert_check", "#select_check",
+            "#merge_check", "#quick_check", "#shell_check", "#heap_check",
             "#count_check", "#bucket_check", "#radix_check",
         ]
         for (var i = 0; i < checkboxes.length; i++) {
@@ -708,10 +711,17 @@
         let graphics = new Graphics(
             document.querySelector("#surface").getContext("2d"),
             document.querySelector("#step_counter"), [
-                ["Bubble", "#000"],["Comb", "#000"],
-                ["Insertion", "#000"],["Selection", "#000"],
-                ["Merge", "#000"],["Quick", "#000"],["Shell", "#000"],["Heap", "#000"],
-                ["Counting", "#000"],["Bucket", "#000"],["Radix", "#000"],
+                ["Bubble", "#000"],
+                ["Comb", "#000"],
+                ["Insertion", "#000"],
+                ["Selection", "#000"],
+                ["Merge", "#000"],
+                ["Quick", "#000"],
+                ["Shell", "#000"],
+                ["Heap", "#000"],
+                ["Counting", "#000"],
+                ["Bucket", "#000"],
+                ["Radix", "#000"],
             ]
         );
         document.querySelector("#reset").click();
