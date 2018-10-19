@@ -4,61 +4,178 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sorting Algorithm :)</title>
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-    <meta name="viewport" content="width=1024">
+    <!-- https://codepen.io/leamZ/pen/MvVppL -->
+    <!-- https://codepen.io/msurguy/pen/fBDJA -->
+    <meta name="viewport" content="width=720">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#000000">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Raleway');
         * {
             font-family: Raleway, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             background-color: white;
-            font-size: 110%;
             color: black;
             text-align: center;
         }
         canvas {
-            border: 1px solid white;
+            /* padding: 2em; */
+            margin: 2em;
+            border: 1px solid black;
         }
-        h1 {
+        button {
+            background: transparent;
+            border: 2px solid #0099CC;
+            border-radius: 6px;
+            padding: 16px 32px;
             text-align: center;
-            font-size: 200%;
+            display: inline-block;
+            margin: 4px 2px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: black;
+            font-size: 1.5em;
         }
-        div {
-            margin-top: 3px;
-            text-align: center;
+        button:hover {
+            background-color: #008CBA;
+            color: white;
         }
-        button{
-            border: 0;
-        }
-        #Step_counter {
+        #step_counter {
             width: 80px;
+            font-size: 2em;
             display: inline-block;
         }
+        /* https://stackoverflow.com/questions/2756575/drawing-text-to-canvas-with-font-face-does-not-work-at-the-first-time */
         @font-face {
             font-family: raleway;
             src: url(raleway/Raleway-SemiBold.ttf);
         }
+        ul {
+            position: absolute;
+            left: 0;
+            list-style: none;
+            font-size: 20px;
+        }
+        /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            text-align: left;
+            margin: 6px 0;
+            cursor: pointer;
+            font-size: 18px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+        }
+        .container:hover input~.checkmark {
+            background-color: #ccc;
+        }
+        .container input:checked~.checkmark {
+            background-color: #2196F3;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .container input:checked~.checkmark:after {
+            display: block;
+        }
+        .container .checkmark:after {
+            left: 7px;
+            top: 4px;
+            width: 5px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+        /* https://www.w3schools.com/howto/howto_css_style_hr.asp */
+        hr {
+            border: 1px solid black;
+        }
+        /* http://www.authorcode.com/how-to-create-hyper-link-on-the-canvas-in-html5/ */
+        /* https://simonsarris.com/making-html5-canvas-useful/ */
     </style>
 </head>
 <body>
     <h1>Sorting Visualizations</h1>
-    <canvas id="surface" width="550" height="100">This isn't displaying for some reason, and that's sad :(</canvas>
-    <div>
-        <button id="Reset">Reset</button>
-        <button id="Run">Run</button>
-        <button id="Pause">Pause</button>
-        <button id="Re_step">&#8249;</button>
-        <div id="Step_counter">0</div>
-        <button id="Step">&#8250;</button>
+    <p>N = 100</p>
+    <div id="controls">
+        <button id="reset">Reset</button>
+        <button id="run">Run</button>
+        <button id="pause">Pause</button>
+        <button id="reverse_step">-</button>
+        <div id="step_counter">0</div>
+        <button id="step">+</button>
     </div>
-    <div>
-        <input type="checkbox" id="bubble_check" name="bubble_check" checked>
-        <label for="bubble_check">Bubble sort</label>
-    </div>
+    <canvas id="surface" width="1215" height="500">This isn't displaying for some reason, and that's just sad :(</canvas>
+    <ul>
+        <li>Comparison Sorts
+            <hr>
+            <label class="container" for="bubble_check">Bubble sort
+                <input type="checkbox" id="bubble_check" name="bubble_check" checked>
+                <span class="checkmark"></span>
+            </label>
+            <label class="container" for="comb_check">Comb sort
+                <input type="checkbox" id="comb_check" name="comb_check" checked>
+                <span class="checkmark"></span>
+            </label>
+        </li>
+    </ul>
     <script>
         function bubble_sort(arr, row) {
-            let steps = [];
-            let swapped = true;
-            let i = arr.length - 1;
+            let steps = [],
+                swapped = true,
+                i = arr.length - 1;
+            while (swapped === true && i > 0) {
+                swapped = false;
+                for (let j = 0; j < i; j++) {
+                    steps.push(arr.slice(0));
+                    if (arr[j] > arr[j + 1]) {
+                        let temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                        swapped = true;
+                        steps.push(arr.slice(0));
+                    }
+                }
+                i -= 1;
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        function comb_sort(arr, row) {
+            let steps = [],
+                swapped = true,
+                i = arr.length - 1;
             while (swapped === true && i > 0) {
                 swapped = false;
                 for (let j = 0; j < i; j++) {
@@ -78,28 +195,30 @@
         }
         class Graphics {
             constructor(ctx, counter, names) {
-                this.colours = [
-                    "#b23700",
-                    "#cc3f00",
-                    "#e54700",
-                    "#ff4f00",
-                    "#ff4f00",
-                    "#ff6019",
-                    "#ff7232",
-                    "#ff834c",
-                    "#ff9566",
-                    "#ffa77f",
-                    "#ffb899",
-                    "#ffcab2",
-                    "#ffdbcc",
-                    "#ffede5",
-                    "#ffffff"
+                this.colours = ["#CD5C5C", "#F08080", "#FA8072", "#E9967A", "#FFA07A", "#DC143C", "#FF0000",
+                    "#B22222", "#8B0000", "#FFC0CB", "#FFB6C1", "#FF69B4", "#FF1493", "#C71585", "#DB7093",
+                    "#FFA07A", "#FF7F50", "#FF6347", "#FF4500", "#FF8C00", "#FFA500", "#FFD700", "#FFFF00",
+                    "#FFFFE0", "#FFFACD", "#FAFAD2", "#FFEFD5", "#FFE4B5", "#FFDAB9", "#EEE8AA", "#F0E68C",
+                    "#BDB76B", "#E6E6FA", "#D8BFD8", "#DDA0DD", "#EE82EE", "#DA70D6", "#FF00FF", "#FF00FF",
+                    "#BA55D3", "#9370DB", "#663399", "#8A2BE2", "#9400D3", "#9932CC", "#8B008B", "#800080",
+                    "#4B0082", "#6A5ACD", "#483D8B", "#7B68EE", "#ADFF2F", "#7FFF00", "#7CFC00", "#00FF00",
+                    "#32CD32", "#98FB98", "#90EE90", "#00FA9A", "#00FF7F", "#3CB371", "#2E8B57", "#228B22",
+                    "#008000", "#006400", "#9ACD32", "#6B8E23", "#808000", "#556B2F", "#66CDAA", "#8FBC8B",
+                    "#20B2AA", "#008B8B", "#008080", "#00FFFF", "#00FFFF", "#E0FFFF", "#AFEEEE", "#7FFFD4",
+                    "#40E0D0", "#48D1CC", "#00CED1", "#5F9EA0", "#4682B4", "#B0C4DE", "#B0E0E6", "#ADD8E6",
+                    "#87CEEB", "#87CEFA", "#00BFFF", "#1E90FF", "#6495ED", "#7B68EE", "#4169E1", "#0000FF",
+                    "#0000CD", "#00008B", "#000080", "#191970", "#FFF8DC", "#FFEBCD", "#FFE4C4", "#FFDEAD",
+                    "#F5DEB3", "#DEB887", "#D2B48C", "#BC8F8F", "#F4A460", "#DAA520", "#B8860B", "#CD853F",
+                    "#D2691E", "#8B4513", "#A0522D", "#A52A2A", "#800000", "#FFFFFF", "#FFFAFA", "#F0FFF0",
+                    "#F5FFFA", "#F0FFFF", "#F0F8FF", "#F8F8FF", "#F5F5F5", "#FFF5EE", "#F5F5DC", "#FDF5E6",
+                    "#FFFAF0", "#FFFFF0", "#FAEBD7", "#FAF0E6", "#FFF0F5", "#FFE4E1", "#DCDCDC", "#D3D3D3",
+                    "#C0C0C0", "#A9A9A9", "#808080", "#696969", "#778899", "#708090", "#2F4F4F", "#000000"
                 ];
-                this.permitted = [0, 0, 0, 0, 0]; 
+                this.permitted = [0, 0];
                 this.CTX = ctx;
                 this.block_width = 10;
-                this.block_height = 60;
-                this.X_offset = 280;
+                this.block_height = 200;
+                this.X_offset = 200;
                 this.Y_offset = 10;
                 this.sort_animation = null;
                 this.step = 0;
@@ -111,15 +230,16 @@
                 this.display_names = function () {
                     this.CTX.font = "30px Arial";
                     for (let i = 0; i < this.names.length; i++) {
+                        // Rewriting the text :)
                         this.CTX.fillStyle = "#fff";
                         this.CTX.fillText(
-                            this.names[i][0] + " SORT:",
+                            this.names[i][0] + " Sort:",
                             10,
                             30 + graphics.block_height / 2 + i * this.block_height
                         );
-                        this.CTX.fillStyle = "#000";
+                        this.CTX.fillStyle = this.names[i][1];
                         this.CTX.fillText(
-                            this.names[i][0] + " SORT:",
+                            this.names[i][0] + " Sort:",
                             10,
                             30 + graphics.block_height / 2 + i * this.block_height
                         );
@@ -129,8 +249,8 @@
                     this.CTX.fillStyle = "#fff";
                     this.CTX.fillRect(x, y, this.block_width, this.block_height);
                     this.CTX.fillStyle = colour;
-                    let offset = this.block_height - height * 3;
-                    this.CTX.fillRect(x, y + offset, this.block_width, height * 3);
+                    let offset = this.block_height - height * 1;
+                    this.CTX.fillRect(x, y + offset, this.block_width, height * 1);
                 };
                 this.display_frame = function (frame, y_axis) {
                     for (let i = 0; i < frame.length; i++) {
@@ -209,17 +329,18 @@
                 }
             }
         }
-        const Sort_num = 25; 
+        const Sort_num = 100;
         function make_list(num) {
             let arr = [];
             for (let i = 0; i < num; i++) {
-                arr.push(Math.floor(Math.random() * 15));
+                arr.push(Math.floor(Math.random() * 143));
             }
             return arr;
         }
         function run_sorts(arr) {
             let step_holder = [];
             step_holder.push(bubble_sort(arr.slice(0)));
+            step_holder.push(comb_sort(arr.slice(0)));
             return step_holder;
         }
         function clude_sorts(boxes, graphics) {
@@ -231,42 +352,43 @@
                 }
             }
         }
-        document.querySelector("#Reset").onclick = function () {
+        document.querySelector("#reset").onclick = function () {
             clude_sorts(checkboxes, graphics)
             let current_list = make_list(Sort_num);
             current_holder = run_sorts(current_list);
             graphics.display_clear(current_holder);
         };
-        document.querySelector("#Run").onclick = function () {
+        document.querySelector("#run").onclick = function () {
             graphics.display_sorts(current_holder);
         };
-        document.querySelector("#Pause").onclick = function () {
+        document.querySelector("#pause").onclick = function () {
             graphics.display_pause();
         };
-        document.querySelector("#Step").onclick = function () {
+        document.querySelector("#step").onclick = function () {
             graphics.step += 1;
             graphics.display_step(current_holder);
         };
-        document.querySelector("#Re_step").onclick = function () {
+        document.querySelector("#reverse_step").onclick = function () {
             if (graphics.step > 0) {
                 graphics.step -= 1;
             }
             graphics.display_step(current_holder);
         };
-        let checkboxes = ["#bubble_check"]
+        let checkboxes = ["#bubble_check", "#comb_check"]
         for (var i = 0; i < checkboxes.length; i++) {
             document.querySelector(checkboxes[i]).addEventListener('change', function () {
                 clude_sorts(checkboxes, graphics);
             });
         }
-        let current_holder = []; 
+        let current_holder = [];
         let graphics = new Graphics(
             document.querySelector("#surface").getContext("2d"),
-            document.querySelector("#Step_counter"), [
-                ["BUBBLE", "#000"]
+            document.querySelector("#step_counter"), [
+                ["Bubble", "#000"],
+                ["Comb", "#000"]
             ]
-        ); 
-        document.querySelector("#Reset").click();
+        );
+        document.querySelector("#reset").click();
     </script>
 </body>
 </html>
