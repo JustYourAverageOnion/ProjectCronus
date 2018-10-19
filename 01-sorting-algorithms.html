@@ -473,7 +473,7 @@
                 arr[j + 1] = temp;
             }
             steps.push(arr.slice(0));
-            return arr;
+            return steps;
         }
         function bucket_sort_rec(arr, steps, bucketSize = 5) {
             if (arr.length === 0) {
@@ -507,7 +507,7 @@
                 });
             });
             steps.push(arr.slice(0));
-            return arr;
+            return steps;
         }
         function bucket_sort(arr) {
             let steps = [];
@@ -518,19 +518,26 @@
         }
         function radix_sort(arr) {
             let steps = [],
-                swapped = true,
-                i = arr.length - 1;
-            while (swapped === true && i > 0) {
-                swapped = false;
-                for (let j = 0; j < i; j++) {
-                    steps.push(arr.slice(0));
-                    if (arr[j] > arr[j + 1]) {
-                        swap(arr, j, j + 1);
-                        swapped = true;
-                        steps.push(arr.slice(0));
+                buckets = [[],[],[],[],[],[],[],[],[],[]];
+            steps.push(arr.slice(0));
+            arr = arr.map(x => x.toString());
+            let numDigits = Math.max(...arr.map(x => x.length));
+            arr = arr.map(x => x.padStart(numDigits, '0'));
+            for (var i = 0; i < numDigits; i++) {
+                for (var j = 0; j < arr.length; j++) {
+                    var num = parseInt(arr[j][arr[j].length - 1 - i]);
+                    buckets[num].push(arr[j]);
+                    // steps.push(arr.slice(0));
+                }
+                var res = [];
+                for (var j = 0; j < buckets.length; j++) {
+                    while (buckets[j].length) {
+                        res.push(buckets[j].shift());
+                        steps.push(res.slice(0));
                     }
                 }
-                i -= 1;
+                arr = res;
+                steps.push(arr.slice(0));
             }
             steps.push(arr.slice(0));
             return steps;
