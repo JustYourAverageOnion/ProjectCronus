@@ -143,12 +143,12 @@
             left: 0;
             width: 100%;
         }
-        .sticky + .content {
+        .sticky+.content {
             padding-top: 60px;
         }
         #step_counter {
-            background:#0099CC;
-            color:white;
+            background: #0099CC;
+            color: white;
         }
         @media screen and (max-width: 720px) {
             h1,
@@ -237,7 +237,6 @@
             let steps = [],
                 swapped = true,
                 gap = arr.length - 1;
-            /*https://www.geeksforgeeks.org/comb-sort/*/
             while (gap != 1 || swapped === true) {
                 gap = Math.floor(gap / 1.25);
                 if (gap < 1) gap = 1;
@@ -311,7 +310,6 @@
         function merge_sort(arr, steps = [], leftIndex = 0, rightIndex = 100) {
             if (arr.length == 1) {
                 // console.log(leftIndex +" "+rightIndex);
-                steps.push(arr.slice(0));
                 return arr;
             }
             var mid = Math.floor(arr.length / 2),
@@ -355,6 +353,7 @@
         }
         function quick_sort(arr) {
             let steps = [];
+            steps.push(arr.slice(0));
             quick_sort_rec(arr, steps);
             // console.log("Quick Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
@@ -364,6 +363,7 @@
             let steps = [],
                 gaps = [701, 301, 132, 57, 23, 10, 4, 1];
             // https://en.wikipedia.org/wiki/Shellsort
+            steps.push(arr.slice(0));
             for (let g in gaps) {
                 let gap = gaps[g];
                 for (let i = gap; i < arr.length; i++) {
@@ -414,6 +414,7 @@
         function heap_sort(arr) {
             // https://en.wikipedia.org/wiki/Heapsort
             let steps = [];
+            steps.push(arr.slice(0));
             heap_sort_rec(arr, steps);
             // console.log("Heap Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
@@ -446,7 +447,6 @@
             for (var i = 1; i < arr.length; i++) {
                 var temp = arr[i];
                 for (var j = i - 1; j >= 0 && temp < arr[j]; j--){
-                    steps.push(arr.slice(0));
                     arr[j + 1] = arr[j];
                 } 
                 arr[j + 1] = temp;
@@ -455,7 +455,7 @@
         function bucket_sort(arr) {
             let steps = [];
             steps.push(arr.slice(0));
-            var bucket_number = 4;
+            var bucket_number = 10;
             var buckets = [];
             for (var i = 0; i < bucket_number; i++) {
                 buckets[i] = [];
@@ -468,16 +468,15 @@
                         if (Math.floor(arr[j] / bucket_number) >= i) buckets[i].push(arr[j]);
                     }
                     if (i > 0 && i < bucket_number - 1) {
-                        if (
-                            Math.floor(arr[j] / bucket_number) >= i &&
-                            Math.floor(arr[j] / bucket_number) < i + 1
-                        )
+                        if (Math.floor(arr[j] / bucket_number) >= i &&Math.floor(arr[j] / bucket_number) < i + 1)
                             buckets[i].push(arr[j]);
                     }
                 }
+                steps.push(buckets[i].slice(0));
             }
             for (var i = 0; i < buckets.length; i++) {
                 bucket_insert(buckets[i], steps);
+                steps.push(buckets[i].slice(0));
             }
             var arr = [];
             for (var i = 0; i < buckets.length; i++) {
@@ -517,7 +516,8 @@
         }
         class Graphics {
             constructor(ctx, counter, names) {
-                this.colours = ["#CD5C5C", "#F08080", "#FA8072", "#E9967A", "#FFA07A", "#DC143C", "#FF0000",
+                this.colours = [
+                    "#CD5C5C", "#F08080", "#FA8072", "#E9967A", "#FFA07A", "#DC143C", "#FF0000",
                     "#B22222", "#8B0000", "#FFC0CB", "#FFB6C1", "#FF69B4", "#FF1493", "#C71585", "#DB7093",
                     "#FFA07A", "#FF7F50", "#FF6347", "#FF4500", "#FF8C00", "#FFA500", "#FFD700", "#FFFF00",
                     "#FFFFE0", "#FFFACD", "#FAFAD2", "#FFEFD5", "#FFE4B5", "#FFDAB9", "#EEE8AA", "#F0E68C",
@@ -542,7 +542,7 @@
                     0, 0, 0
                 ];
                 this.CTX = ctx;
-                this.block_width = 9;
+                this.block_width = 5;
                 this.block_height = 200;
                 this.X_offset = 260;
                 this.Y_offset = 10;
@@ -654,12 +654,14 @@
                 }
             }
         }
-        const Sort_num = 100;
+        const Sort_num = 143;
         function make_list(num) {
             let arr = [];
             for (let i = 0; i < num; i++) {
+                // arr.push(i);
                 arr.push(Math.floor(Math.random() * 143));
             }
+            // arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
             return arr;
         }
         function run_sorts(arr) {
@@ -719,20 +721,24 @@
             });
         }
         let current_holder = [];
+        let name_holder = [
+            ["Bubble", "#000"],["Comb", "#000"],["Insertion", "#000"],["Selection", "#000"],
+            ["Merge", "#000"],["Quick", "#000"],["Shell", "#000"],["Heap", "#000"],
+            ["Counting", "#000"],["Bucket", "#000"],["Radix", "#000"],
+        ];
         let graphics = new Graphics(
             document.querySelector("#surface").getContext("2d"),
-            document.querySelector("#step_counter"), [
-                ["Bubble", "#000"],["Comb", "#000"],["Insertion", "#000"],["Selection", "#000"],
-                ["Merge", "#000"],["Quick", "#000"],["Shell", "#000"],["Heap", "#000"],
-                ["Counting", "#000"],["Bucket", "#000"],["Radix", "#000"],
-            ]
+            document.querySelector("#step_counter"),
+            name_holder
         );
         document.querySelector("#reset").click();
         // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_navbar_sticky
-        window.onscroll = function() {myFunction()};
+        window.onscroll = function () {
+            stickyFunction()
+        };
         var navbar = document.getElementById("navbar");
         var sticky = navbar.offsetTop;
-        function myFunction() {
+        function stickyFunction() {
             if (window.pageYOffset >= sticky) {
                 navbar.classList.add("sticky")
             } else {
