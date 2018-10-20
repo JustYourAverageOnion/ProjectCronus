@@ -442,58 +442,50 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        function bucket_sort_insert(arr, steps) {
-            var length = arr.length;
-            for (var i = 1; i < length; i++) {
+        function bucket_insert(arr, steps) {
+            for (var i = 1; i < arr.length; i++) {
                 var temp = arr[i];
-                for (var j = i - 1; j >= 0 && arr[j] > temp; j--) {
-                    arr[j + 1] = arr[j];
+                for (var j = i - 1; j >= 0 && temp < arr[j]; j--){
                     steps.push(arr.slice(0));
-                }
+                    arr[j + 1] = arr[j];
+                } 
                 arr[j + 1] = temp;
             }
-            steps.push(arr.slice(0));
-            return arr;
-        }
-        function bucket_sort_rec(arr, steps, bucketSize = 5) {
-            if (arr.length === 0) {
-                return arr;
-            }
-            var i,
-                minValue = arr[0],
-                maxValue = arr[0],
-                bucketSize = bucketSize || 5;
-            arr.forEach(function (currentVal) {
-                if (currentVal < minValue) {
-                    minValue = currentVal;
-                } else if (currentVal > maxValue) {
-                    maxValue = currentVal;
-                }
-            })
-            var bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1;
-            var allBuckets = new Array(bucketCount);
-            for (i = 0; i < allBuckets.length; i++) {
-                allBuckets[i] = [];
-            }
-            arr.forEach(function (currentVal) {
-                allBuckets[Math.floor((currentVal - minValue) / bucketSize)].push(currentVal);
-            });
-            arr.length = 0;
-            allBuckets.forEach(function (bucket) {
-                bucket_sort_insert(arr, steps);
-                bucket.forEach(function (element) {
-                    arr.push(element)
-                    steps.push(arr.slice(0));
-                });
-            });
-            steps.push(arr.slice(0));
-            return arr;
         }
         function bucket_sort(arr) {
             let steps = [];
             steps.push(arr.slice(0));
-            bucket_sort_rec(arr, steps);
-            // console.log("Bucket Sort: "+arr.slice(0));
+            var bucket_number = 4;
+            var buckets = [];
+            for (var i = 0; i < bucket_number; i++) {
+                buckets[i] = [];
+                for (var j = 0; j < arr.length; j++) {
+                    if (i == 0) {
+                        if (Math.floor(arr[j] / bucket_number) < i + 1)
+                            buckets[i].push(arr[j]);
+                    }
+                    if (i == bucket_number - 1) {
+                        if (Math.floor(arr[j] / bucket_number) >= i) buckets[i].push(arr[j]);
+                    }
+                    if (i > 0 && i < bucket_number - 1) {
+                        if (
+                            Math.floor(arr[j] / bucket_number) >= i &&
+                            Math.floor(arr[j] / bucket_number) < i + 1
+                        )
+                            buckets[i].push(arr[j]);
+                    }
+                }
+            }
+            for (var i = 0; i < buckets.length; i++) {
+                bucket_insert(buckets[i], steps);
+            }
+            var arr = [];
+            for (var i = 0; i < buckets.length; i++) {
+                for (var j = 0; j < buckets[i].length; j++) {
+                    arr.push(buckets[i][j]);
+                    steps.push(arr.slice(0));
+                }
+            }
             steps.push(arr.slice(0));
             return steps;
         }
