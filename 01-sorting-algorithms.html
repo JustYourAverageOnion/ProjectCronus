@@ -28,7 +28,7 @@
         }
         /* https://medium.freecodecamp.org/a-quick-guide-to-styling-buttons-using-css-f64d4f96337f */
         button {
-            background: transparent;
+            background: white;
             border: 2px solid #0099CC;
             border-radius: 6px;
             padding: 16px 32px;
@@ -137,8 +137,26 @@
                 text-align: center;
             }
         }
-        /* http://www.authorcode.com/how-to-create-hyper-link-on-the-canvas-in-html5/ */
-        /* https://simonsarris.com/making-html5-canvas-useful/ */
+        /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_navbar_sticky */
+        #navbar {
+            overflow: hidden;
+            background: #0099CC;
+        }
+        .content {
+            padding: 16px;
+        }
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        .sticky + .content {
+            padding-top: 60px;
+        }
+        #step_counter {
+            background:#0099CC;
+            color:white;
+        }
     </style>
 </head>
 <body>
@@ -170,7 +188,7 @@
             <td><label class="container" for="heap_check">Heap sort<input type="checkbox" id="heap_check" name="heap_check" checked><span class="checkmark"></span></label></td>
         </tr>
     </table>
-    <div id="controls">
+    <div id="navbar">
         <button id="reset">Reset</button>
         <button id="run">Run</button>
         <button id="pause">Pause</button>
@@ -178,7 +196,9 @@
         <div id="step_counter">0</div>
         <button id="step">+</button>
     </div>
-    <canvas id="surface" width="1215" height="2300">This isn't displaying for some reason, and that's just sad :(</canvas>
+    <div class="content">
+        <canvas id="surface" width="1215" height="2300">This isn't displaying for some reason, and that's just sad :(</canvas>
+    </div>
     <script>
         function swap(arr, i, j) {
             var temp = arr[i];
@@ -263,7 +283,7 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        function merge_sort_rec(arr, left, right, steps) {
+        function merge_sort_rec(arr, left, right, steps, leftIndex, rightIndex) {
             var a = 0;
             while (left.length && right.length) {
                 arr[a++] = (right[0] < left[0] ? right.shift() : left.shift());
@@ -280,18 +300,19 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        function merge_sort(arr, steps) {
+        function merge_sort(arr, steps = [], leftIndex = 0, rightIndex = 100) {
             if (arr.length == 1) {
+                // console.log(leftIndex +" "+rightIndex);
                 steps.push(arr.slice(0));
-                return steps;
+                return arr;
             }
             var mid = Math.floor(arr.length / 2),
                 left = arr.slice(0, mid),
                 right = arr.slice(mid);
             steps.push(arr.slice(0));
-            merge_sort(left, steps);
-            merge_sort(right, steps);
-            merge_sort_rec(arr, left, right, steps);
+            merge_sort(left, steps, leftIndex, mid);
+            merge_sort(right, steps, mid, rightIndex);
+            merge_sort_rec(arr, left, right, steps, leftIndex, rightIndex);
             // console.log("Merge Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
@@ -642,14 +663,12 @@
             return arr;
         }
         function run_sorts(arr) {
-            let step_holder = [],
-                steps = [];
+            let step_holder = [];
             step_holder.push(bubble_sort(arr.slice(0)));
             step_holder.push(comb_sort(arr.slice(0)));
             step_holder.push(insert_sort(arr.slice(0)));
             step_holder.push(select_sort(arr.slice(0)));
-            // Confusion with naming convention, But hey it works :)
-            step_holder.push(merge_sort(arr.slice(0), steps));
+            step_holder.push(merge_sort(arr.slice(0)));
             step_holder.push(quick_sort(arr.slice(0)));
             step_holder.push(shell_sort(arr.slice(0)));
             step_holder.push(heap_sort(arr.slice(0)));
@@ -709,6 +728,17 @@
             ]
         );
         document.querySelector("#reset").click();
+        // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_navbar_sticky
+        window.onscroll = function() {myFunction()};
+        var navbar = document.getElementById("navbar");
+        var sticky = navbar.offsetTop;
+        function myFunction() {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("sticky")
+            } else {
+                navbar.classList.remove("sticky");
+            }
+        }
     </script>
 </body>
 </html>
