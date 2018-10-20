@@ -516,67 +516,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        function heap_sort_rec(arr, steps) {
-            heapify(arr, steps);
-            let end = arr.length - 1;
-            while (end > 0) {
-                swap(arr, 0, end);
-                steps.push(arr.slice(0));
-                heap_sift_down(arr, 0, end, steps);
-                end--;
-            }
-        }
-        function heapify(arr, steps) {
-            let i = Math.floor(arr.length / 2 - 1);
-            while (i >= 0) {
-                heap_sift_down(arr, i, arr.length, steps);
-                i--;
-            }
-        }
-        function heap_sift_down(arr, start, end, steps) {
-            let maxChild, child1, child2;
-            while (start < end) {
-                maxChild = start;
-                child1 = 2 * start + 1;
-                child2 = child1 + 1;
-                if (child1 < end && arr[child1] > arr[maxChild]) maxChild = child1;
-                if (child2 < end && arr[child2] > arr[maxChild]) maxChild = child2;
-                if (maxChild == start) return;
-                swap(arr, start, maxChild);
-                steps.push(arr.slice(0));
-                start = maxChild;
-            }
-        }
-        function heap_sort(arr) {
-            // https://en.wikipedia.org/wiki/Heapsort
-            let steps = [];
-            steps.push(arr.slice(0));
-            heap_sort_rec(arr, steps);
-            steps.push(arr.slice(0));
-            return steps;
-        }
-        function count_sort(arr) {
-            let steps = [],
-                z = 0,
-                count = [],
-                min = Math.min(...arr),
-                max = Math.max(...arr);
-            for (var i = min; i <= max; i++) {
-                count[i] = 0;
-            }
-            for (var i = 0; i < arr.length; i++) {
-                count[arr[i]]++;
-                steps.push(arr.slice(0));
-            }
-            for (var i = min; i <= max; i++) {
-                while (count[i]-- > 0) {
-                    arr[z++] = i;
-                    steps.push(arr.slice(0));
-                }
-            }
-            steps.push(arr.slice(0));
-            return steps;
-        }
         function bucket_insert(arr, steps) {
             for (var i = 1; i < arr.length; i++) {
                 var temp = arr[i];
@@ -622,6 +561,28 @@
             steps.push(arr.slice(0));
             return steps;
         }
+        function count_sort(arr) {
+            let steps = [],
+                z = 0,
+                count = [],
+                min = Math.min(...arr),
+                max = Math.max(...arr);
+            for (var i = min; i <= max; i++) {
+                count[i] = 0;
+            }
+            for (var i = 0; i < arr.length; i++) {
+                count[arr[i]]++;
+                steps.push(arr.slice(0));
+            }
+            for (var i = min; i <= max; i++) {
+                while (count[i]-- > 0) {
+                    arr[z++] = i;
+                    steps.push(arr.slice(0));
+                }
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
         function radix_sort(arr) {
             let steps = [],
                 buckets = [[],[],[],[],[],[],[],[],[],[]];
@@ -647,6 +608,84 @@
             steps.push(arr.slice(0));
             return steps;
         }
+        function cycle_sort(arr) {
+            let steps = [],
+            w = 0;
+            for (var start = 0; start < arr.length - 1; start++) {
+                var val = arr[start];
+                var pos = start;
+                for (var i = start + 1; i < arr.length; i++) {
+                    if (arr[i] < val) 
+                        pos++;
+                }
+                if (pos == start) 
+                    continue;
+                while (val == arr[pos]) 
+                    pos++;
+                var tmp = arr[pos];
+                arr[pos] = val;
+                val = tmp;
+                steps.push(arr.slice(0));
+                w++;
+
+                while (pos != start) {
+                    pos = start;
+                    for (var i = start + 1; i < arr.length; i++) {
+                        if (arr[i] < val) 
+                            pos++;
+                    }
+                    while (val == arr[pos]) 
+                        pos++;
+                    var tmp = arr[pos];
+                    arr[pos] = val;
+                    val = tmp;
+                    steps.push(arr.slice(0));
+                    w++;
+                }
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        function heap_sort_rec(arr, steps) {
+            heapify(arr, steps);
+            let end = arr.length - 1;
+            while (end > 0) {
+                swap(arr, 0, end);
+                steps.push(arr.slice(0));
+                heap_sift_down(arr, 0, end, steps);
+                end--;
+            }
+        }
+        function heapify(arr, steps) {
+            let i = Math.floor(arr.length / 2 - 1);
+            while (i >= 0) {
+                heap_sift_down(arr, i, arr.length, steps);
+                i--;
+            }
+        }
+        function heap_sift_down(arr, start, end, steps) {
+            let maxChild, child1, child2;
+            while (start < end) {
+                maxChild = start;
+                child1 = 2 * start + 1;
+                child2 = child1 + 1;
+                if (child1 < end && arr[child1] > arr[maxChild]) maxChild = child1;
+                if (child2 < end && arr[child2] > arr[maxChild]) maxChild = child2;
+                if (maxChild == start) return;
+                swap(arr, start, maxChild);
+                steps.push(arr.slice(0));
+                start = maxChild;
+            }
+        }
+        function heap_sort(arr) {
+            // https://en.wikipedia.org/wiki/Heapsort
+            let steps = [];
+            steps.push(arr.slice(0));
+            heap_sort_rec(arr, steps);
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        
         class Graphics {
             constructor(ctx, counter, names) {
                 this.colours = [
@@ -818,8 +857,7 @@
             step_holder.push(count_sort(arr.slice(0)));
             step_holder.push(radix_sort(arr.slice(0)));
 
-            // Cycle
-            step_holder.push(heap_sort(arr.slice(0)));
+            step_holder.push(cycle_sort(arr.slice(0)));
             step_holder.push(heap_sort(arr.slice(0)));
 
             // Gnome Slow Sleep
