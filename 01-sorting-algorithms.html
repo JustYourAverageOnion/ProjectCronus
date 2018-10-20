@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,14 +22,11 @@
             color: black;
             text-align: center;
         }
-
         canvas {
             margin: 2em;
             border: 1px solid #0099CC;
         }
-
         /* https://medium.freecodecamp.org/a-quick-guide-to-styling-buttons-using-css-f64d4f96337f */
-
         button {
             background: transparent;
             border: 2px solid #0099CC;
@@ -47,27 +43,21 @@
             color: black;
             font-size: 1.5em;
         }
-
         button:hover {
             background-color: #008CBA;
             color: white;
         }
-
         #step_counter {
             width: 80px;
             font-size: 2em;
             display: inline-block;
         }
-
         /* https://stackoverflow.com/questions/2756575/drawing-text-to-canvas-with-font-face-does-not-work-at-the-first-time */
-
         @font-face {
             font-family: raleway;
             src: url(raleway/Raleway-SemiBold.ttf);
         }
-
         /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
-
         .container {
             display: block;
             position: relative;
@@ -81,7 +71,6 @@
             -ms-user-select: none;
             user-select: none;
         }
-
         .container input {
             position: absolute;
             opacity: 0;
@@ -89,7 +78,6 @@
             height: 0;
             width: 0;
         }
-
         .checkmark {
             position: absolute;
             top: 0;
@@ -98,25 +86,20 @@
             width: 20px;
             background-color: #eee;
         }
-
         .container:hover input~.checkmark {
             background-color: #ccc;
         }
-
         .container input:checked~.checkmark {
             background-color: #0099CC;
         }
-
         .checkmark:after {
             content: "";
             position: absolute;
             display: none;
         }
-
         .container input:checked~.checkmark:after {
             display: block;
         }
-
         .container .checkmark:after {
             left: 7px;
             top: 4px;
@@ -128,15 +111,12 @@
             -ms-transform: rotate(45deg);
             transform: rotate(45deg);
         }
-
         /* https://www.w3schools.com/css/css_table.asp */
-
         table {
             width: 100%;
             padding: 2%;
             text-align: left;
         }
-
         th {
             padding: 20px;
             background-color: #0099CC;
@@ -144,11 +124,9 @@
             text-align: center;
             font-size: 24px;
         }
-
         td {
             padding: 10px;
         }
-
         @media screen and (max-width: 720px) {
             h1,
             p,
@@ -159,13 +137,10 @@
                 text-align: center;
             }
         }
-
         /* http://www.authorcode.com/how-to-create-hyper-link-on-the-canvas-in-html5/ */
-
         /* https://simonsarris.com/making-html5-canvas-useful/ */
     </style>
 </head>
-
 <body>
     <h1>Sorting Visualizations</h1>
     <p>N = 100</p>
@@ -211,7 +186,6 @@
             arr[j] = temp;
             return arr;
         }
-
         function bubble_sort(arr) {
             let steps = [],
                 swapped = true,
@@ -232,7 +206,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function comb_sort(arr) {
             let steps = [],
                 swapped = true,
@@ -256,7 +229,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function insert_sort(arr) {
             let steps = [];
             for (let i = 1; i < arr.length; i++) {
@@ -274,7 +246,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function select_sort(arr) {
             let steps = [];
             for (let i = 0; i < arr.length; i++) {
@@ -292,7 +263,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function merge_sort_rec(arr, left, right, steps) {
             var a = 0;
             while (left.length && right.length) {
@@ -310,7 +280,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function merge_sort(arr, steps) {
             if (arr.length == 1) {
                 steps.push(arr.slice(0));
@@ -327,7 +296,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function quick_sort_rec(arr, steps, start = 0, end = -1) {
             if (end == -1) {
                 end = arr.length - 1;
@@ -356,7 +324,6 @@
                 quick_sort_rec(arr, steps, lower + 1, pivot);
             }
         }
-
         function quick_sort(arr) {
             let steps = [];
             quick_sort_rec(arr, steps);
@@ -364,7 +331,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function shell_sort(arr) {
             let steps = [],
                 gaps = [701, 301, 132, 57, 23, 10, 4, 1];
@@ -385,7 +351,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function heap_sort_rec(arr, steps) {
             heapify(arr, steps);
             let end = arr.length - 1;
@@ -396,7 +361,6 @@
                 end--;
             }
         }
-
         function heapify(arr, steps) {
             let i = Math.floor(arr.length / 2 - 1);
             while (i >= 0) {
@@ -404,7 +368,6 @@
                 i--;
             }
         }
-
         function heap_sift_down(arr, start, end, steps) {
             let maxChild, child1, child2;
             while (start < end) {
@@ -419,7 +382,6 @@
                 start = maxChild;
             }
         }
-
         function heap_sort(arr) {
             // https://en.wikipedia.org/wiki/Heapsort
             let steps = [];
@@ -428,7 +390,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function count_sort(arr) {
             let steps = [],
                 z = 0,
@@ -452,7 +413,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function bucket_sort_insert(arr, steps) {
             var length = arr.length;
             for (var i = 1; i < length; i++) {
@@ -466,7 +426,6 @@
             steps.push(arr.slice(0));
             return arr;
         }
-
         function bucket_sort_rec(arr, steps, bucketSize = 5) {
             if (arr.length === 0) {
                 return arr;
@@ -501,7 +460,6 @@
             steps.push(arr.slice(0));
             return arr;
         }
-
         function bucket_sort(arr) {
             let steps = [];
             steps.push(arr.slice(0));
@@ -510,7 +468,6 @@
             steps.push(arr.slice(0));
             return steps;
         }
-
         function radix_sort(arr) {
             let steps = [],
                 buckets = [[],[],[],[],[],[],[],[],[],[]];
@@ -677,7 +634,6 @@
             }
         }
         const Sort_num = 100;
-
         function make_list(num) {
             let arr = [];
             for (let i = 0; i < num; i++) {
@@ -685,7 +641,6 @@
             }
             return arr;
         }
-
         function run_sorts(arr) {
             let step_holder = [],
                 steps = [];
@@ -703,7 +658,6 @@
             step_holder.push(radix_sort(arr.slice(0)));
             return step_holder;
         }
-
         function include_sorts(boxes, graphics) {
             for (let i = 0; i < boxes.length; i++) {
                 if (document.querySelector(boxes[i]).checked) {
@@ -757,5 +711,4 @@
         document.querySelector("#reset").click();
     </script>
 </body>
-
 </html>
