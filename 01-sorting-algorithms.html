@@ -127,20 +127,12 @@
         td {
             padding: 10px;
         }
-        @media screen and (max-width: 720px) {
-            h1,
-            p,
-            table,
-            #controls {
-                width: 1215px;
-                margin: 2em;
-                text-align: center;
-            }
-        }
         /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_navbar_sticky */
         #navbar {
             overflow: hidden;
             background: #0099CC;
+            padding: 0;
+            margin: 0;
         }
         .content {
             padding: 16px;
@@ -148,6 +140,7 @@
         .sticky {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
         }
         .sticky + .content {
@@ -156,6 +149,20 @@
         #step_counter {
             background:#0099CC;
             color:white;
+        }
+        @media screen and (max-width: 720px) {
+            h1,
+            p,
+            table {
+                width: 1215px;
+                margin: 2em;
+                text-align: center;
+            }
+            #navbar {
+                width: 1290px;
+                left: -10px;
+                padding: 10px;
+            }
         }
     </style>
 </head>
