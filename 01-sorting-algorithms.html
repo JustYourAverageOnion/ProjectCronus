@@ -249,17 +249,51 @@
             let steps = [],
                 swapped = true,
                 i = arr.length - 1;
+            steps.push(arr.slice(0));
             while (swapped === true && i > 0) {
                 swapped = false;
                 for (let j = 0; j < i; j++) {
-                    steps.push(arr.slice(0));
                     if (arr[j] > arr[j + 1]) {
                         swap(arr, j, j + 1);
                         swapped = true;
-                        steps.push(arr.slice(0));
                     }
+                    steps.push(arr.slice(0));
                 }
                 i -= 1;
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        function cocktail_sort(arr){
+            let steps = [],
+                begin = 0,
+                end = arr.length - 1;
+            steps.push(arr.slice(0));
+            while (begin <= end) {
+                var new_begin = end,
+                    new_end = begin,
+                    swapped = false;
+                for (var i = begin; i <= end; i++) {
+                    if (arr[i] > arr[i + 1]) {
+                        swap(arr, i, i + 1);
+                        swapped = true;
+                        new_end = i;
+                    }
+                    steps.push(arr.slice(0));
+                }
+                if (!swapped) break;
+                end = new_end - 1;
+                swapped = false;
+                for (var i = end; i >= begin; i--) {
+                    if (arr[i] > arr[i + 1]) {
+                        swap(arr, i, i + 1);
+                        new_begin = i;
+                        swapped = true;
+                    }
+                    steps.push(arr.slice(0));
+                }
+                if (!swapped) break;
+                begin = new_begin + 1;
             }
             steps.push(arr.slice(0));
             return steps;
@@ -565,9 +599,9 @@
                     0, 0, 0,
                 ];
                 this.CTX = ctx;
-                this.block_width = 5;
+                this.block_width = 6;
                 this.block_height = 200;
-                this.X_offset = 260;
+                this.X_offset = 300;
                 this.Y_offset = 10;
                 this.sort_animation = null;
                 this.step = 0;
@@ -582,14 +616,14 @@
                         this.CTX.fillStyle = "#fff";
                         this.CTX.fillText(
                             this.names[i][0] + " Sort:",
-                            10,
-                            30 + graphics.block_height / 2 + i * this.block_height
+                            100,
+                            100 + graphics.block_height / 2 + i * this.block_height
                         );
                         this.CTX.fillStyle = this.names[i][1];
                         this.CTX.fillText(
                             this.names[i][0] + " Sort:",
-                            10,
-                            30 + graphics.block_height / 2 + i * this.block_height
+                            100,
+                            100 + graphics.block_height / 2 + i * this.block_height
                         );
                     }
                 };
@@ -689,8 +723,7 @@
         function run_sorts(arr) {
             let step_holder = [];
             step_holder.push(bubble_sort(arr.slice(0)));
-            // Cocktail
-            step_holder.push(bubble_sort(arr.slice(0)));
+            step_holder.push(cocktail_sort(arr.slice(0)));
             step_holder.push(comb_sort(arr.slice(0)));
             step_holder.push(insert_sort(arr.slice(0)));
             step_holder.push(shell_sort(arr.slice(0)));
@@ -758,7 +791,6 @@
             "#gnome_check","#slow_check","#sleep_check"
         ];
         for (var i = 0; i < checkboxes.length; i++) {
-            console.log(checkboxes[i]);
             document.querySelector(checkboxes[i]).addEventListener('change', function () {
                 include_sorts(checkboxes, graphics);
             });
