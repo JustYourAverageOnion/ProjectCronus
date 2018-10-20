@@ -685,7 +685,27 @@
             steps.push(arr.slice(0));
             return steps;
         }
-        
+        function gnome_sort(arr) {
+            let steps = [],
+                i = 1,
+                j = 2;
+            while (i < arr.length) {
+                if (arr[i - 1] <= arr[i]) {
+                    i = j;
+                    j++;
+                } else {
+                    swap(arr, i - 1, i);
+                    i--;
+                    if (i == 0) {
+                        i = j;
+                        j++;
+                    }
+                }
+                steps.push(arr.slice(0));
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
         class Graphics {
             constructor(ctx, counter, names) {
                 this.colours = [
@@ -861,7 +881,7 @@
             step_holder.push(heap_sort(arr.slice(0)));
 
             // Gnome Slow Sleep
-            step_holder.push(heap_sort(arr.slice(0)));
+            step_holder.push(gnome_sort(arr.slice(0)));
             step_holder.push(heap_sort(arr.slice(0)));
             step_holder.push(heap_sort(arr.slice(0)));
             return step_holder;
