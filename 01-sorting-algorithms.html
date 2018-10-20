@@ -706,6 +706,31 @@
             steps.push(arr.slice(0));
             return steps;
         }
+        function sleep_sort_sleep(steps, arr, set) {
+            return new Promise((resolve, reject) => {
+                let max = Math.max(...arr),
+                    a = JSON.parse(JSON.stringify(arr));
+                for (let i = 0; i < a.length; i++) {
+                    setTimeout(function() {
+                        set(arr, a[i]);
+                        if (a[i] == max) resolve();
+                        steps.push(arr.slice(0));
+                    }, a[i] * 50);
+                }
+            });
+        }
+        function sleep_sort(arr) {
+            let steps = [],
+                index = 0,
+                setFunc = function(arr, x) {
+                    arr[index++] = x;
+                };
+            steps.push(arr.slice(0));
+            sleep_sort_sleep(steps, arr, setFunc).then(() => {
+            });
+            steps.push(arr.slice(0));
+            return steps;
+        }
         class Graphics {
             constructor(ctx, counter, names) {
                 this.colours = [
@@ -883,7 +908,7 @@
             // Gnome Slow Sleep
             step_holder.push(gnome_sort(arr.slice(0)));
             step_holder.push(heap_sort(arr.slice(0)));
-            step_holder.push(heap_sort(arr.slice(0)));
+            step_holder.push(sleep_sort(arr.slice(0)));
             return step_holder;
         }
         function include_sorts(boxes, graphics) {
