@@ -336,6 +336,26 @@
             steps.push(arr.slice(0));
             return steps;
         }
+        function shell_sort(arr) {
+            let steps = [],
+                gaps = [701, 301, 132, 57, 23, 10, 4, 1];
+            // https://en.wikipedia.org/wiki/Shellsort
+            steps.push(arr.slice(0));
+            for (let g in gaps) {
+                let gap = gaps[g];
+                for (let i = gap; i < arr.length; i++) {
+                    let temp = arr[i];
+                    for (var j = i; j >= gap & arr[j - gap] > temp; j -= gap) {
+                        arr[j] = arr[j - gap];
+                        steps.push(arr.slice(0));
+                    }
+                    arr[j] = temp;
+                    steps.push(arr.slice(0));
+                }
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
         function select_sort(arr) {
             let steps = [];
             for (let i = 0; i < arr.length; i++) {
@@ -347,6 +367,37 @@
                     steps.push(arr.slice(0));
                 }
                 swap(arr, i, smallest_index);
+                steps.push(arr.slice(0));
+            }
+            steps.push(arr.slice(0));
+            return steps;
+        }
+        function pancake_sort(arr) {
+            let steps = [];
+            for (var i = arr.length - 1; i >= 1; i--) {
+                var maxIdx = 0,
+                    max = arr[0];
+                for (var j = 1; j <= i; j++) {
+                    if (arr[j] > max) {
+                        max = arr[j];
+                        maxIdx = j;
+                    }
+                    steps.push(arr.slice(0));
+                }
+                if (maxIdx == i) continue;
+                var newSlice;
+                if (maxIdx > 0) {
+                    newSlice = arr.slice(0, maxIdx + 1).reverse();
+                    for (var j = 0; j <= maxIdx; j++) {
+                        arr[j] = newSlice[j];
+                        steps.push(arr.slice(0));
+                    }
+                }
+                newSlice = arr.slice(0, i + 1).reverse();
+                for (var j = 0; j <= i; j++) {
+                    arr[j] = newSlice[j];
+                    steps.push(arr.slice(0));
+                }
                 steps.push(arr.slice(0));
             }
             steps.push(arr.slice(0));
@@ -415,26 +466,6 @@
             let steps = [];
             steps.push(arr.slice(0));
             quick_sort_rec(arr, steps);
-            steps.push(arr.slice(0));
-            return steps;
-        }
-        function shell_sort(arr) {
-            let steps = [],
-                gaps = [701, 301, 132, 57, 23, 10, 4, 1];
-            // https://en.wikipedia.org/wiki/Shellsort
-            steps.push(arr.slice(0));
-            for (let g in gaps) {
-                let gap = gaps[g];
-                for (let i = gap; i < arr.length; i++) {
-                    let temp = arr[i];
-                    for (var j = i; j >= gap & arr[j - gap] > temp; j -= gap) {
-                        arr[j] = arr[j - gap];
-                        steps.push(arr.slice(0));
-                    }
-                    arr[j] = temp;
-                    steps.push(arr.slice(0));
-                }
-            }
             steps.push(arr.slice(0));
             return steps;
         }
@@ -729,7 +760,7 @@
             step_holder.push(shell_sort(arr.slice(0)));
             step_holder.push(select_sort(arr.slice(0)));
             // Pancake
-            step_holder.push(select_sort(arr.slice(0)));
+            step_holder.push(pancake_sort(arr.slice(0)));
 
             step_holder.push(merge_sort(arr.slice(0)));
             // Strand
