@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,10 +23,14 @@
             color: black;
             text-align: center;
         }
+
         canvas {
             margin: 2em;
             border: 1px solid #0099CC;
         }
+
+        /* https://medium.freecodecamp.org/a-quick-guide-to-styling-buttons-using-css-f64d4f96337f */
+
         button {
             background: transparent;
             border: 2px solid #0099CC;
@@ -42,27 +47,27 @@
             color: black;
             font-size: 1.5em;
         }
+
         button:hover {
             background-color: #008CBA;
             color: white;
         }
+
         #step_counter {
             width: 80px;
             font-size: 2em;
             display: inline-block;
         }
+
         /* https://stackoverflow.com/questions/2756575/drawing-text-to-canvas-with-font-face-does-not-work-at-the-first-time */
+
         @font-face {
             font-family: raleway;
             src: url(raleway/Raleway-SemiBold.ttf);
         }
-        ul {
-            position: absolute;
-            left: 0;
-            list-style: none;
-            font-size: 20px;
-        }
+
         /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
+
         .container {
             display: block;
             position: relative;
@@ -76,6 +81,7 @@
             -ms-user-select: none;
             user-select: none;
         }
+
         .container input {
             position: absolute;
             opacity: 0;
@@ -83,6 +89,7 @@
             height: 0;
             width: 0;
         }
+
         .checkmark {
             position: absolute;
             top: 0;
@@ -91,20 +98,25 @@
             width: 20px;
             background-color: #eee;
         }
+
         .container:hover input~.checkmark {
             background-color: #ccc;
         }
+
         .container input:checked~.checkmark {
             background-color: #0099CC;
         }
+
         .checkmark:after {
             content: "";
             position: absolute;
             display: none;
         }
+
         .container input:checked~.checkmark:after {
             display: block;
         }
+
         .container .checkmark:after {
             left: 7px;
             top: 4px;
@@ -116,13 +128,15 @@
             -ms-transform: rotate(45deg);
             transform: rotate(45deg);
         }
+
         /* https://www.w3schools.com/css/css_table.asp */
+
         table {
             width: 100%;
-            padding-left: 10%;
-            padding-right: 10%;
+            padding: 2%;
             text-align: left;
         }
+
         th {
             padding: 20px;
             background-color: #0099CC;
@@ -130,101 +144,55 @@
             text-align: center;
             font-size: 24px;
         }
+
         td {
             padding: 10px;
         }
+
+        @media screen and (max-width: 720px) {
+            h1,
+            p,
+            table,
+            #controls {
+                width: 1215px;
+                margin: 2em;
+                text-align: center;
+            }
+        }
+
         /* http://www.authorcode.com/how-to-create-hyper-link-on-the-canvas-in-html5/ */
+
         /* https://simonsarris.com/making-html5-canvas-useful/ */
     </style>
 </head>
+
 <body>
     <h1>Sorting Visualizations</h1>
     <p>N = 100</p>
     <table>
         <tr>
-            <th>Bubble Sorts</th>
             <th>Simple Sorts</th>
             <th>Efficient Sorts</th>
             <th>Distribution Sorts</th>
         </tr>
         <tr>
-            <td>
-                <label class="container" for="bubble_check">Bubble sort
-                    <input type="checkbox" id="bubble_check" name="bubble_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-            <td>
-                <label class="container" for="insert_check">Insertion sort
-                    <input type="checkbox" id="insert_check" name="insert_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-            <td>
-                <label class="container" for="merge_check">Merge sort
-                    <input type="checkbox" id="merge_check" name="merge_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-            <td>
-                <label class="container" for="count_check">Counting sort
-                    <input type="checkbox" id="count_check" name="count_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
+            <td><label class="container" for="bubble_check">Bubble sort<input type="checkbox" id="bubble_check" name="bubble_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="merge_check">Merge sort<input type="checkbox" id="merge_check" name="merge_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="count_check">Counting sort<input type="checkbox" id="count_check" name="count_check" checked><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td>
-                <label class="container" for="comb_check">Comb sort
-                    <input type="checkbox" id="comb_check" name="comb_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-            <td>
-                <label class="container" for="select_check">Selection sort
-                    <input type="checkbox" id="select_check" name="select_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-            <td>
-                <label class="container" for="quick_check">Quick sort
-                    <input type="checkbox" id="quick_check" name="quick_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-            <td>
-                <label class="container" for="bucket_check">Bucket sort
-                    <input type="checkbox" id="bucket_check" name="bucket_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
+            <td><label class="container" for="comb_check">Comb sort<input type="checkbox" id="comb_check" name="comb_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="quick_check">Quick sort<input type="checkbox" id="quick_check" name="quick_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="bucket_check">Bucket sort<input type="checkbox" id="bucket_check" name="bucket_check" checked><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td>
-                <label class="container" for="shell_check">Shell sort
-                    <input type="checkbox" id="shell_check" name="shell_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-            <td>
-                <label class="container" for="radix_check">Radix sort
-                    <input type="checkbox" id="radix_check" name="radix_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
+            <td><label class="container" for="insert_check">Insertion sort<input type="checkbox" id="insert_check" name="insert_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="shell_check">Shell sort<input type="checkbox" id="shell_check" name="shell_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="radix_check">Radix sort<input type="checkbox" id="radix_check" name="radix_check" checked><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td>
-                <label class="container" for="heap_check">Heap sort
-                    <input type="checkbox" id="heap_check" name="heap_check" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-            <td></td>
+            <td><label class="container" for="select_check">Selection sort<input type="checkbox" id="select_check" name="select_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="heap_check">Heap sort<input type="checkbox" id="heap_check" name="heap_check" checked><span class="checkmark"></span></label></td>
         </tr>
     </table>
     <div id="controls">
@@ -243,6 +211,7 @@
             arr[j] = temp;
             return arr;
         }
+
         function bubble_sort(arr) {
             let steps = [],
                 swapped = true,
@@ -259,9 +228,11 @@
                 }
                 i -= 1;
             }
+            // console.log("Bubble Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
+
         function comb_sort(arr) {
             let steps = [],
                 swapped = true,
@@ -281,9 +252,11 @@
                     i++;
                 }
             }
+            // console.log("Comb Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
+
         function insert_sort(arr) {
             let steps = [];
             for (let i = 1; i < arr.length; i++) {
@@ -297,25 +270,29 @@
                 arr[pos] = key;
                 steps.push(arr.slice(0));
             }
+            // console.log("Insert Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
+
         function select_sort(arr) {
             let steps = [];
             for (let i = 0; i < arr.length; i++) {
                 let smallest_index = i;
                 for (let j = i + 1; j < arr.length; j++) {
-                    steps.push(arr.slice(0));
                     if (arr[j] < arr[smallest_index]) {
                         smallest_index = j;
                     }
+                    steps.push(arr.slice(0));
                 }
                 swap(arr, i, smallest_index);
                 steps.push(arr.slice(0));
             }
+            // console.log("Select Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
+
         function merge_sort_rec(arr, left, right, steps) {
             var a = 0;
             while (left.length && right.length) {
@@ -333,6 +310,7 @@
             steps.push(arr.slice(0));
             return steps;
         }
+
         function merge_sort(arr, steps) {
             if (arr.length == 1) {
                 steps.push(arr.slice(0));
@@ -345,22 +323,22 @@
             merge_sort(left, steps);
             merge_sort(right, steps);
             merge_sort_rec(arr, left, right, steps);
+            // console.log("Merge Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
+
         function quick_sort_rec(arr, steps, start = 0, end = -1) {
             if (end == -1) {
                 end = arr.length - 1;
             }
             if (start >= end) {
-                steps.push(arr.slice(0));
                 return;
             } else {
                 let pivot = end;
                 let higher = pivot - 1;
                 let lower = start;
                 while (lower <= higher) {
-                    steps.push(arr.slice(0));
                     if (arr[lower] <= arr[pivot]) {
                         lower += 1;
                     } else {
@@ -368,10 +346,9 @@
                         arr[lower] = arr[higher];
                         arr[higher] = temp;
                         higher -= 1;
-                        steps.push(arr.slice(0));
                     }
+                    steps.push(arr.slice(0));
                 }
-                steps.push(arr.slice(0));
                 let temp = arr[pivot];
                 arr[pivot] = arr[lower];
                 arr[lower] = temp;
@@ -379,11 +356,15 @@
                 quick_sort_rec(arr, steps, lower + 1, pivot);
             }
         }
+
         function quick_sort(arr) {
             let steps = [];
             quick_sort_rec(arr, steps);
+            // console.log("Quick Sort: "+arr.slice(0));
+            steps.push(arr.slice(0));
             return steps;
         }
+
         function shell_sort(arr) {
             let steps = [],
                 gaps = [701, 301, 132, 57, 23, 10, 4, 1];
@@ -400,9 +381,11 @@
                     steps.push(arr.slice(0));
                 }
             }
+            // console.log("Shell Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
+
         function heap_sort_rec(arr, steps) {
             heapify(arr, steps);
             let end = arr.length - 1;
@@ -413,6 +396,7 @@
                 end--;
             }
         }
+
         function heapify(arr, steps) {
             let i = Math.floor(arr.length / 2 - 1);
             while (i >= 0) {
@@ -420,6 +404,7 @@
                 i--;
             }
         }
+
         function heap_sift_down(arr, start, end, steps) {
             let maxChild, child1, child2;
             while (start < end) {
@@ -434,12 +419,16 @@
                 start = maxChild;
             }
         }
+
         function heap_sort(arr) {
             // https://en.wikipedia.org/wiki/Heapsort
             let steps = [];
             heap_sort_rec(arr, steps);
+            // console.log("Heap Sort: "+arr.slice(0));
+            steps.push(arr.slice(0));
             return steps;
         }
+
         function count_sort(arr) {
             let steps = [],
                 z = 0,
@@ -459,9 +448,11 @@
                     steps.push(arr.slice(0));
                 }
             }
+            // console.log("Count Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
+
         function bucket_sort_insert(arr, steps) {
             var length = arr.length;
             for (var i = 1; i < length; i++) {
@@ -473,8 +464,9 @@
                 arr[j + 1] = temp;
             }
             steps.push(arr.slice(0));
-            return steps;
+            return arr;
         }
+
         function bucket_sort_rec(arr, steps, bucketSize = 5) {
             if (arr.length === 0) {
                 return arr;
@@ -507,15 +499,18 @@
                 });
             });
             steps.push(arr.slice(0));
-            return steps;
+            return arr;
         }
+
         function bucket_sort(arr) {
             let steps = [];
             steps.push(arr.slice(0));
             bucket_sort_rec(arr, steps);
+            // console.log("Bucket Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
+
         function radix_sort(arr) {
             let steps = [],
                 buckets = [[],[],[],[],[],[],[],[],[],[]];
@@ -527,7 +522,6 @@
                 for (var j = 0; j < arr.length; j++) {
                     var num = parseInt(arr[j][arr[j].length - 1 - i]);
                     buckets[num].push(arr[j]);
-                    // steps.push(arr.slice(0));
                 }
                 var res = [];
                 for (var j = 0; j < buckets.length; j++) {
@@ -539,6 +533,7 @@
                 arr = res;
                 steps.push(arr.slice(0));
             }
+            // console.log("Radix Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -564,8 +559,7 @@
                     "#C0C0C0", "#A9A9A9", "#808080", "#696969", "#778899", "#708090", "#2F4F4F", "#000000"
                 ];
                 this.permitted = [
-                    0, 0,
-                    0, 0,
+                    0, 0, 0, 0,
                     0, 0, 0, 0,
                     0, 0, 0
                 ];
@@ -584,7 +578,6 @@
                 this.display_names = function () {
                     this.CTX.font = "30px Arial";
                     for (let i = 0; i < this.names.length; i++) {
-                        // Rewriting the text :)
                         this.CTX.fillStyle = "#fff";
                         this.CTX.fillText(
                             this.names[i][0] + " Sort:",
@@ -684,6 +677,7 @@
             }
         }
         const Sort_num = 100;
+
         function make_list(num) {
             let arr = [];
             for (let i = 0; i < num; i++) {
@@ -691,6 +685,7 @@
             }
             return arr;
         }
+
         function run_sorts(arr) {
             let step_holder = [],
                 steps = [];
@@ -698,6 +693,7 @@
             step_holder.push(comb_sort(arr.slice(0)));
             step_holder.push(insert_sort(arr.slice(0)));
             step_holder.push(select_sort(arr.slice(0)));
+            // Confusion with naming convention, But hey it works :)
             step_holder.push(merge_sort(arr.slice(0), steps));
             step_holder.push(quick_sort(arr.slice(0)));
             step_holder.push(shell_sort(arr.slice(0)));
@@ -707,6 +703,7 @@
             step_holder.push(radix_sort(arr.slice(0)));
             return step_holder;
         }
+
         function include_sorts(boxes, graphics) {
             for (let i = 0; i < boxes.length; i++) {
                 if (document.querySelector(boxes[i]).checked) {
@@ -739,8 +736,7 @@
             graphics.display_step(current_holder);
         };
         let checkboxes = [
-            "#bubble_check", "#comb_check",
-            "#insert_check", "#select_check",
+            "#bubble_check", "#comb_check", "#insert_check", "#select_check",
             "#merge_check", "#quick_check", "#shell_check", "#heap_check",
             "#count_check", "#bucket_check", "#radix_check",
         ]
@@ -753,20 +749,13 @@
         let graphics = new Graphics(
             document.querySelector("#surface").getContext("2d"),
             document.querySelector("#step_counter"), [
-                ["Bubble", "#000"],
-                ["Comb", "#000"],
-                ["Insertion", "#000"],
-                ["Selection", "#000"],
-                ["Merge", "#000"],
-                ["Quick", "#000"],
-                ["Shell", "#000"],
-                ["Heap", "#000"],
-                ["Counting", "#000"],
-                ["Bucket", "#000"],
-                ["Radix", "#000"],
+                ["Bubble", "#000"],["Comb", "#000"],["Insertion", "#000"],["Selection", "#000"],
+                ["Merge", "#000"],["Quick", "#000"],["Shell", "#000"],["Heap", "#000"],
+                ["Counting", "#000"],["Bucket", "#000"],["Radix", "#000"],
             ]
         );
         document.querySelector("#reset").click();
     </script>
 </body>
+
 </html>
