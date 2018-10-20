@@ -173,26 +173,58 @@
         <tr>
             <th>Simple Sorts</th>
             <th>Efficient Sorts</th>
-            <th>Distribution Sorts</th>
+            <th>Hashing Sorts</th>
+            <th>Tree Sorts</th>
+            <th>Inefficient Sorts</th>
         </tr>
         <tr>
             <td><label class="container" for="bubble_check">Bubble sort<input type="checkbox" id="bubble_check" name="bubble_check" checked><span class="checkmark"></span></label></td>
             <td><label class="container" for="merge_check">Merge sort<input type="checkbox" id="merge_check" name="merge_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="bucket_check">Bucket sort<input type="checkbox" id="bucket_check" name="bucket_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="cycle_check">Cycle sort<input type="checkbox" id="cycle_check" name="cycle_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="gnome_check">Gnome sort<input type="checkbox" id="gnome_check" name="gnome_check" checked><span class="checkmark"></span></label></td>
+        </tr>
+        <tr>
+            <td><label class="container" for="cocktail_check">Cocktail sort<input type="checkbox" id="cocktail_check" name="cocktail_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="strand_check">Strand sort<input type="checkbox" id="strand_check" name="strand_check" checked><span class="checkmark"></span></label></td>
             <td><label class="container" for="count_check">Counting sort<input type="checkbox" id="count_check" name="count_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="heap_check">Heap sort<input type="checkbox" id="heap_check" name="heap_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="slow_check">Slow sort<input type="checkbox" id="slow_check" name="slow_check" checked><span class="checkmark"></span></label></td>
         </tr>
         <tr>
             <td><label class="container" for="comb_check">Comb sort<input type="checkbox" id="comb_check" name="comb_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="quick_check">Quick sort<input type="checkbox" id="quick_check" name="quick_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="bucket_check">Bucket sort<input type="checkbox" id="bucket_check" name="bucket_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="stooge_check">Stooge sort<input type="checkbox" id="stooge_check" name="stooge_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="radix_check">Radix sort<input type="checkbox" id="radix_check" name="radix_check" checked><span class="checkmark"></span></label></td>
+            <td></td>
+            <td><label class="container" for="sleep_check">Sleep sort<input type="checkbox" id="sleep_check" name="sleep_check" checked><span class="checkmark"></span></label></td>
         </tr>
         <tr>
             <td><label class="container" for="insert_check">Insertion sort<input type="checkbox" id="insert_check" name="insert_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="quick_check">Quick sort<input type="checkbox" id="quick_check" name="quick_check" checked><span class="checkmark"></span></label></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
             <td><label class="container" for="shell_check">Shell sort<input type="checkbox" id="shell_check" name="shell_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="radix_check">Radix sort<input type="checkbox" id="radix_check" name="radix_check" checked><span class="checkmark"></span></label></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
             <td><label class="container" for="select_check">Selection sort<input type="checkbox" id="select_check" name="select_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="heap_check">Heap sort<input type="checkbox" id="heap_check" name="heap_check" checked><span class="checkmark"></span></label></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label class="container" for="pancake_check">Pancake sort<input type="checkbox" id="pancake_check" name="pancake_check" checked><span class="checkmark"></span></label></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
     </table>
     <div id="navbar">
@@ -204,7 +236,7 @@
         <button id="step">+</button>
     </div>
     <div class="content">
-        <canvas id="surface" width="1215" height="2300">This isn't displaying for some reason, and that's just sad :(</canvas>
+        <canvas id="surface" width="1215" height="3900">This isn't displaying for some reason, and that's just sad :(</canvas>
     </div>
     <script>
         function swap(arr, i, j) {
@@ -229,7 +261,6 @@
                 }
                 i -= 1;
             }
-            // console.log("Bubble Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -252,7 +283,6 @@
                     i++;
                 }
             }
-            // console.log("Comb Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -269,7 +299,6 @@
                 arr[pos] = key;
                 steps.push(arr.slice(0));
             }
-            // console.log("Insert Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -286,7 +315,6 @@
                 swap(arr, i, smallest_index);
                 steps.push(arr.slice(0));
             }
-            // console.log("Select Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -309,7 +337,6 @@
         }
         function merge_sort(arr, steps = [], leftIndex = 0, rightIndex = 100) {
             if (arr.length == 1) {
-                // console.log(leftIndex +" "+rightIndex);
                 return arr;
             }
             var mid = Math.floor(arr.length / 2),
@@ -319,7 +346,6 @@
             merge_sort(left, steps, leftIndex, mid);
             merge_sort(right, steps, mid, rightIndex);
             merge_sort_rec(arr, left, right, steps, leftIndex, rightIndex);
-            // console.log("Merge Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -355,7 +381,6 @@
             let steps = [];
             steps.push(arr.slice(0));
             quick_sort_rec(arr, steps);
-            // console.log("Quick Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -376,7 +401,6 @@
                     steps.push(arr.slice(0));
                 }
             }
-            // console.log("Shell Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -416,7 +440,6 @@
             let steps = [];
             steps.push(arr.slice(0));
             heap_sort_rec(arr, steps);
-            // console.log("Heap Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -439,7 +462,6 @@
                     steps.push(arr.slice(0));
                 }
             }
-            // console.log("Count Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -510,7 +532,6 @@
                 arr = res;
                 steps.push(arr.slice(0));
             }
-            // console.log("Radix Sort: "+arr.slice(0));
             steps.push(arr.slice(0));
             return steps;
         }
@@ -537,9 +558,11 @@
                     "#C0C0C0", "#A9A9A9", "#808080", "#696969", "#778899", "#708090", "#2F4F4F", "#000000"
                 ];
                 this.permitted = [
+                    0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0,
-                    0, 0, 0, 0,
-                    0, 0, 0
+                    0, 0, 0,
+                    0, 0,
+                    0, 0, 0,
                 ];
                 this.CTX = ctx;
                 this.block_width = 5;
@@ -661,22 +684,39 @@
                 // arr.push(i);
                 arr.push(Math.floor(Math.random() * 143));
             }
-            // arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
             return arr;
         }
         function run_sorts(arr) {
             let step_holder = [];
             step_holder.push(bubble_sort(arr.slice(0)));
+            // Cocktail
+            step_holder.push(bubble_sort(arr.slice(0)));
             step_holder.push(comb_sort(arr.slice(0)));
             step_holder.push(insert_sort(arr.slice(0)));
+            step_holder.push(shell_sort(arr.slice(0)));
             step_holder.push(select_sort(arr.slice(0)));
+            // Pancake
+            step_holder.push(select_sort(arr.slice(0)));
+
+            step_holder.push(merge_sort(arr.slice(0)));
+            // Strand
+            step_holder.push(merge_sort(arr.slice(0)));
+            // Stooge
             step_holder.push(merge_sort(arr.slice(0)));
             step_holder.push(quick_sort(arr.slice(0)));
-            step_holder.push(shell_sort(arr.slice(0)));
-            step_holder.push(heap_sort(arr.slice(0)));
-            step_holder.push(count_sort(arr.slice(0)));
+            
             step_holder.push(bucket_sort(arr.slice(0)));
+            step_holder.push(count_sort(arr.slice(0)));
             step_holder.push(radix_sort(arr.slice(0)));
+
+            // Cycle
+            step_holder.push(heap_sort(arr.slice(0)));
+            step_holder.push(heap_sort(arr.slice(0)));
+
+            // Gnome Slow Sleep
+            step_holder.push(heap_sort(arr.slice(0)));
+            step_holder.push(heap_sort(arr.slice(0)));
+            step_holder.push(heap_sort(arr.slice(0)));
             return step_holder;
         }
         function include_sorts(boxes, graphics) {
@@ -711,20 +751,25 @@
             graphics.display_step(current_holder);
         };
         let checkboxes = [
-            "#bubble_check", "#comb_check", "#insert_check", "#select_check",
-            "#merge_check", "#quick_check", "#shell_check", "#heap_check",
-            "#count_check", "#bucket_check", "#radix_check",
-        ]
+            "#bubble_check","#cocktail_check","#comb_check","#insert_check","#shell_check","#select_check","#pancake_check",
+            "#merge_check","#strand_check","#stooge_check","#quick_check",
+            "#bucket_check","#count_check","#radix_check",
+            "#cycle_check","#heap_check",
+            "#gnome_check","#slow_check","#sleep_check"
+        ];
         for (var i = 0; i < checkboxes.length; i++) {
+            console.log(checkboxes[i]);
             document.querySelector(checkboxes[i]).addEventListener('change', function () {
                 include_sorts(checkboxes, graphics);
             });
         }
         let current_holder = [];
         let name_holder = [
-            ["Bubble", "#000"],["Comb", "#000"],["Insertion", "#000"],["Selection", "#000"],
-            ["Merge", "#000"],["Quick", "#000"],["Shell", "#000"],["Heap", "#000"],
-            ["Counting", "#000"],["Bucket", "#000"],["Radix", "#000"],
+            ["Bubble","#000"],["Cocktail","#000"],["Comb","#000"],["Insertion","#000"],["Shell","#000"],["Selection","#000"],["Pancake","#000"],
+            ["Merge","#000"],["Strand","#000"],["Stooge","#000"],["Quick","#000"],
+            ["Bucket","#000"],["Counting","#000"],["Radix","#000"],
+            ["Cycle","#000"],["Heap","#000"],
+            ["Gnome","#000"],["Slow","#000"],["Sleep","#000"],
         ];
         let graphics = new Graphics(
             document.querySelector("#surface").getContext("2d"),
