@@ -1,7 +1,7 @@
 # ProjectCronus
 A collection of some Algorithms for some well known problems whose time complexities are visualized ?!? -.-
 
-## Visualization of algorithms
+## Visualization of algorithms [link](https://en.wikipedia.org/wiki/List_of_algorithms)
 - **Sorting Algorithms** [Algorithms](http://www.algostructure.com/sorting/index.php)
   - To view [link](https://justyouraverageonion.github.io/ProjectCronus/01-sorting-algorithms.html)
 
