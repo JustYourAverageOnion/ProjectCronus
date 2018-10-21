@@ -65,7 +65,6 @@
             text-align: left;
             margin: 6px 0;
             cursor: pointer;
-            font-size: 18px;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -122,10 +121,14 @@
             background-color: #0099CC;
             color: white;
             text-align: center;
-            font-size: 24px;
+            font-size: 1.2em;
         }
         td {
+            font-size: 0.8em;
             padding: 10px;
+        }
+        td > label {
+            font-size: 1.2em;
         }
         /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_navbar_sticky */
         #navbar {
@@ -171,63 +174,90 @@
     <p>N = 100</p>
     <table>
         <tr>
-            <th>Simple Sorts</th>
-            <th>Efficient Sorts</th>
-            <th>Hashing Sorts</th>
-            <th>Tree Sorts</th>
-            <th>Inefficient Sorts</th>
+            <th>Exchange Sorts</th>
+            <th>Humorous Sorts</th>
+            <th>Hybrid Sorts</th>
+            <th>Insertion Sorts</th>
+            <th>Merge Sorts</th>
+            <th>Non Comparison Sorts</th>
+            <th>Selection Sorts</th>
+            <th>Other Sorts</th>
         </tr>
         <tr>
-            <td><label class="container" for="bubble_check">Bubble sort<input type="checkbox" id="bubble_check" name="bubble_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="merge_check">Merge sort<input type="checkbox" id="merge_check" name="merge_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="bucket_check">Bucket sort<input type="checkbox" id="bucket_check" name="bucket_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="cycle_check">Cycle sort<input type="checkbox" id="cycle_check" name="cycle_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="gnome_check">Gnome sort<input type="checkbox" id="gnome_check" name="gnome_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="bubble_check">Bubble Sort<input type="checkbox" id="bubble_check" name="bubble_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="bogo_check">Bogo Sort<input type="checkbox" id="bogo_check" name="bogo_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="flash_check">Flash Sort<input type="checkbox" id="flash_check" name="flash_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="insert_check">Insertion Sort<input type="checkbox" id="insert_check" name="insert_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="merge_check">Merge Sort<input type="checkbox" id="merge_check" name="merge_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="bead_check">Bead Sort<input type="checkbox" id="bead_check" name="bead_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="heap_check">Heap Sort<input type="checkbox" id="heap_check" name="heap_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="bitonic_check">Bitonic Sort<input type="checkbox" id="bitonic_check" name="bitonic_check" ><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td><label class="container" for="cocktail_check">Cocktail sort<input type="checkbox" id="cocktail_check" name="cocktail_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="strand_check">Strand sort<input type="checkbox" id="strand_check" name="strand_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="count_check">Counting sort<input type="checkbox" id="count_check" name="count_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="heap_check">Heap sort<input type="checkbox" id="heap_check" name="heap_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="slow_check">Slow sort<input type="checkbox" id="slow_check" name="slow_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="cocktail_check">Cocktail Sort<input type="checkbox" id="cocktail_check" name="cocktail_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="stooge_check">Stooge Sort<input type="checkbox" id="stooge_check" name="stooge_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="intro_check">Intro Sort<input type="checkbox" id="intro_check" name="intro_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="library_check">Library Sort<input type="checkbox" id="library_check" name="library_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="strand_check">Strand Sort<input type="checkbox" id="strand_check" name="strand_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="bucket_check">Bucket Sort<input type="checkbox" id="bucket_check" name="bucket_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="select_check">Selection Sort<input type="checkbox" id="select_check" name="select_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="pancake_check">Pancake Sort<input type="checkbox" id="pancake_check" name="pancake_check" checked><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td><label class="container" for="comb_check">Comb sort<input type="checkbox" id="comb_check" name="comb_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="stooge_check">Stooge sort<input type="checkbox" id="stooge_check" name="stooge_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="radix_check">Radix sort<input type="checkbox" id="radix_check" name="radix_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="comb_check">Comb Sort<input type="checkbox" id="comb_check" name="comb_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="sleep_check">Sleep Sort<input type="checkbox" id="sleep_check" name="sleep_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="tim_check">Tim Sort<input type="checkbox" id="tim_check" name="tim_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="patience_check">Patience Sort<input type="checkbox" id="patience_check" name="patience_check" ><span class="checkmark"></span></label></td>
             <td></td>
-            <td><label class="container" for="sleep_check">Sleep sort<input type="checkbox" id="sleep_check" name="sleep_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="burst_check">Burst Sort<input type="checkbox" id="burst_check" name="burst_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="smooth_check">Smooth Sort<input type="checkbox" id="smooth_check" name="smooth_check" ><span class="checkmark"></span></label></td>
+            <td><label class="container" for="spaghetti_check">Spaghetti Sort<input type="checkbox" id="spaghetti_check" name="spaghetti_check" ><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td><label class="container" for="insert_check">Insertion sort<input type="checkbox" id="insert_check" name="insert_check" checked><span class="checkmark"></span></label></td>
-            <td><label class="container" for="quick_check">Quick sort<input type="checkbox" id="quick_check" name="quick_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="gnome_check">Gnome Sort<input type="checkbox" id="gnome_check" name="gnome_check" checked><span class="checkmark"></span></label></td>
             <td></td>
             <td></td>
+            <td><label class="container" for="shell_check">Shell Sort<input type="checkbox" id="shell_check" name="shell_check" checked><span class="checkmark"></span></label></td>
             <td></td>
+            <td><label class="container" for="count_check">Counting Sort<input type="checkbox" id="count_check" name="count_check" checked><span class="checkmark"></span></label></td>
+            <td></td>
+            <td><label class="container" for="topo_check">Topological Sort<input type="checkbox" id="topo_check" name="topo_check" ><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td><label class="container" for="shell_check">Shell sort<input type="checkbox" id="shell_check" name="shell_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="oddEven_check">Odd even Sort<input type="checkbox" id="oddEven_check" name="oddEven_check" ><span class="checkmark"></span></label></td>
             <td></td>
             <td></td>
+            <td><label class="container" for="tree_check">Tree Sort<input type="checkbox" id="tree_check" name="tree_check" ><span class="checkmark"></span></label></td>
             <td></td>
+            <td><label class="container" for="pigeon_check">Pigeon Sort<input type="checkbox" id="pigeon_check" name="pigeon_check" ><span class="checkmark"></span></label></td>
             <td></td>
+            <td><label class="container" for="sample_check">Sample Sort<input type="checkbox" id="sample_check" name="sample_check" ><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td><label class="container" for="select_check">Selection sort<input type="checkbox" id="select_check" name="select_check" checked><span class="checkmark"></span></label></td>
+            <td><label class="container" for="quick_check">Quick Sort<input type="checkbox" id="quick_check" name="quick_check" checked><span class="checkmark"></span></label></td>
             <td></td>
             <td></td>
+            <td><label class="container" for="cycle_check">Cycle Sort<input type="checkbox" id="cycle_check" name="cycle_check" checked><span class="checkmark"></span></label></td>
             <td></td>
+            <td><label class="container" for="post_check">Postman Sort<input type="checkbox" id="post_check" name="post_check" ><span class="checkmark"></span></label></td>
             <td></td>
+            <td><label class="container" for="slow_check">Slow Sort<input type="checkbox" id="slow_check" name="slow_check" ><span class="checkmark"></span></label></td>
         </tr>
         <tr>
-            <td><label class="container" for="pancake_check">Pancake sort<input type="checkbox" id="pancake_check" name="pancake_check" checked><span class="checkmark"></span></label></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><label class="container" for="radix_check">Radix Sort<input type="checkbox" id="radix_check" name="radix_check" checked><span class="checkmark"></span></label></td>
             <td></td>
             <td></td>
         </tr>
+        
     </table>
     <div id="navbar">
+        <button id="asc">Ascending</button>
+        <button id="desc">Descending</button>
         <button id="reset">Reset</button>
         <button id="run">Run</button>
         <button id="pause">Pause</button>
@@ -358,6 +388,7 @@
         }
         function select_sort(arr) {
             let steps = [];
+            // steps.push(arr.slice(0));
             for (let i = 0; i < arr.length; i++) {
                 let smallest_index = i;
                 for (let j = i + 1; j < arr.length; j++) {
@@ -373,6 +404,7 @@
             return steps;
         }
         function pancake_sort(arr) {
+            // https://rosettacode.org/wiki/Sorting_algorithms/Pancake_sort#JavaScript
             let steps = [];
             for (var i = arr.length - 1; i >= 1; i--) {
                 var maxIdx = 0,
@@ -382,15 +414,14 @@
                         max = arr[j];
                         maxIdx = j;
                     }
-                    steps.push(arr.slice(0));
                 }
                 if (maxIdx == i) continue;
                 var newSlice;
                 if (maxIdx > 0) {
                     newSlice = arr.slice(0, maxIdx + 1).reverse();
                     for (var j = 0; j <= maxIdx; j++) {
-                        arr[j] = newSlice[j];
                         steps.push(arr.slice(0));
+                        arr[j] = newSlice[j];
                     }
                 }
                 newSlice = arr.slice(0, i + 1).reverse();
@@ -398,7 +429,6 @@
                     arr[j] = newSlice[j];
                     steps.push(arr.slice(0));
                 }
-                steps.push(arr.slice(0));
             }
             steps.push(arr.slice(0));
             return steps;
@@ -472,8 +502,7 @@
                 arr = remain;
                 steps.push(arr.slice(0));
             }
-            steps.push(arr.slice(0));
-            return result;
+            return arr;
         }
         function strand_sort(arr){
             let steps = [];
@@ -499,8 +528,8 @@
                         arr[lower] = arr[higher];
                         arr[higher] = temp;
                         higher -= 1;
+                        steps.push(arr.slice(0));
                     }
-                    steps.push(arr.slice(0));
                 }
                 let temp = arr[pivot];
                 arr[pivot] = arr[lower];
@@ -611,6 +640,7 @@
         function cycle_sort(arr) {
             let steps = [],
             w = 0;
+            steps.push(arr.slice(0));
             for (var start = 0; start < arr.length - 1; start++) {
                 var val = arr[start];
                 var pos = start;
@@ -729,6 +759,44 @@
             sleep_sort_sleep(steps, arr, setFunc).then(() => {
             });
             steps.push(arr.slice(0));
+            return steps;
+        }
+        bogo_shuffle = function(v) {
+            for(let j, x, i = v.length; i; j = Math.floor(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+            return v;
+        };
+        bogo_isSorted = function(v){
+            for(let i=1; i<v.length; i++) {
+                if (v[i-1] > v[i]) { return false; }
+            }
+            return true;
+        }
+        function bogo_sort(arr) {
+            let steps = [],
+                sorted = false;
+            while(sorted == false){
+                arr = shuffle(arr);
+                sorted = isSorted(arr);
+                steps.push(arr.slice(0));
+            }
+            return steps;
+        }
+        function stooge_sort_rec(arr, steps, i, j) {
+            if (j === undefined) j = arr.length - 1;
+            if (i === undefined) i = 0;
+            if (arr[j] < arr[i]) swap(arr,i,j);
+            steps.push(arr.slice(0));
+            if (j - i > 1) {
+                var t = Math.floor((j - i + 1) / 3);
+                stooge_sort(arr, steps, i, j-t);
+                stooge_sort(arr, steps, i+t, j);
+                stooge_sort(arr, steps, i, j-t);
+            }
+        }
+        function stooge_sort(arr) {
+            let steps =[];
+            steps.push(arr.slice(0));
+            stooge_sort_rec(arr, steps)
             return steps;
         }
         class Graphics {
@@ -873,14 +941,17 @@
                 }
             }
         }
-        const Sort_num = 143;
+        const sort_num = 143;
+        let sort_order = 0;
         function make_list(num) {
             let arr = [];
             for (let i = 0; i < num; i++) {
                 // arr.push(i);
                 arr.push(Math.floor(Math.random() * 143));
             }
-            return arr;
+            if (sort_order == 1) return arr.sort(function(a, b){return a-b}); 
+            else if (sort_order == 2) return arr.sort(function(a, b){return b-a});
+            else return arr;
         }
         function run_sorts(arr) {
             let step_holder = [];
@@ -895,7 +966,7 @@
             step_holder.push(merge_sort(arr.slice(0)));
             step_holder.push(strand_sort(arr.slice(0)));
             // Stooge
-            step_holder.push(merge_sort(arr.slice(0)));
+            step_holder.push(sleep_sort(arr.slice(0)));
             step_holder.push(quick_sort(arr.slice(0)));
             
             step_holder.push(bucket_sort(arr.slice(0)));
@@ -905,7 +976,7 @@
             step_holder.push(cycle_sort(arr.slice(0)));
             step_holder.push(heap_sort(arr.slice(0)));
 
-            // Gnome Slow Sleep
+            // Slow 
             step_holder.push(gnome_sort(arr.slice(0)));
             step_holder.push(heap_sort(arr.slice(0)));
             step_holder.push(sleep_sort(arr.slice(0)));
@@ -921,8 +992,23 @@
             }
         }
         document.querySelector("#reset").onclick = function () {
+            sort_order = 0;
             include_sorts(checkboxes, graphics)
-            let current_list = make_list(Sort_num);
+            let current_list = make_list(sort_num);
+            current_holder = run_sorts(current_list);
+            graphics.display_clear(current_holder);
+        };
+        document.querySelector("#asc").onclick = function () {
+            sort_order = 1;
+            include_sorts(checkboxes, graphics)
+            let current_list = make_list(sort_num);
+            current_holder = run_sorts(current_list);
+            graphics.display_clear(current_holder);
+        };
+        document.querySelector("#desc").onclick = function () {
+            sort_order = 2;
+            include_sorts(checkboxes, graphics)
+            let current_list = make_list(sort_num);
             current_holder = run_sorts(current_list);
             graphics.display_clear(current_holder);
         };
@@ -950,6 +1036,7 @@
             "#gnome_check","#slow_check","#sleep_check"
         ];
         for (var i = 0; i < checkboxes.length; i++) {
+            // console.log(checkboxes[i]);
             document.querySelector(checkboxes[i]).addEventListener('change', function () {
                 include_sorts(checkboxes, graphics);
             });
