@@ -3,6 +3,7 @@ A collection of some Algorithms for some well known problems whose time complexi
 
 ## Visualization of algorithms
 - **Sorting Algorithms** [Algorithms](http://www.algostructure.com/sorting/index.php)
+  - To view [link](https://justyouraverageonion.github.io/ProjectCronus/01-sorting-algorithms.html)
 
 Simple Sorts | Efficient Sorts | Hashing Sorts | Tree Sorts | Inefficient Sorts
 ------------ | ------------ | ------------ | ------------ | ------------ 
@@ -14,4 +15,4 @@ Shell Sort | | | |
 Selection Sort | | | |
 Pancake Sort | | | |
 
-  - To view [link](https://justyouraverageonion.github.io/ProjectCronus/01-sorting-algorithms.html)
+
